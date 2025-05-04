@@ -68,4 +68,15 @@ router.post('/register', registerUser);
  */
 router.post('/login', loginUser);
 
+
+// Logout route
+router.post('/logout', (req, res) => {
+    req.logout(err => {
+      if (err) return res.status(500).json({ message: 'Logout failed' });
+      res.clearCookie('connect.sid'); // nëse përdor session cookie
+      res.status(200).json({ message: 'Logout successful' });
+    });
+  });
+  
+
 module.exports = router;
