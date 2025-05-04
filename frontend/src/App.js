@@ -1,0 +1,65 @@
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import Register from "./components/Register";
+import Login from "./components/Login";
+import Logout from "./components/Logout"; 
+import Home from "./components/Home";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+
+import AdminFacultySidebar from "./components/Admin/AdminSidebar";
+import StudentSidebar from "./components/Student/StudentSidebar";
+import ProfesorSidebar from "./components/Profesor/ProfesorSidebar";
+
+import StudentDashboard from "./components/Student/StudentDashboard";
+import AdminDashboard from "./components/Admin/AdminDashboard";
+import ProfessorDashboard from "./components/Profesor/ProfesorDashboard";
+
+
+import ManageAdmins from "./components/Admin/ManageAdmins";
+import ManageStudents from "./components/Admin/ManageStudents";
+import ManageProfesors from "./components/Admin/ManageProfesors";
+
+import ReportList from "./components/Report/ReportList";
+
+import AppointmentList from "./components/Appoinment/AppoinmentList";
+
+
+import "./App.css";
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/header" element={<Header />} />
+        <Route path="/footer" element={<Footer />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
+        
+        <Route path="/admin-dashboard" element={<AdminFacultySidebar />} />
+        <Route path="/student-dashboard" element={<StudentSidebar />} />
+        <Route path="/professor-dashboard" element={<ProfesorSidebar />} />
+        <Route path="/student" element={<StudentDashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/professor" element={<ProfessorDashboard />} />
+        
+        
+        <Route path="/manageadmins" element={<ManageAdmins />} />
+        <Route path="/managestudents" element={<ManageStudents />} />
+        <Route path="/manageprofessors" element={<ManageProfesors />} />
+        
+        <Route path="/reportlist" element={<ReportList />} />
+        <Route path="/appointmentlist" element={<AppointmentList />} />
+
+
+
+
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
