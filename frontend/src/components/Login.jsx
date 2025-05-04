@@ -40,7 +40,7 @@ const Login = () => {
           navigate('/admin-dashboard');
         } else if (data.user.role === 'student') {
           navigate('/student-dashboard');
-        } else if( data.user.role === 'professor') {
+        } else if( data.user.role === 'profesor') {
           navigate('/professor-dashboard');
         }
           setErrorMessage('Roli i përdoruesit nuk u gjet.');
