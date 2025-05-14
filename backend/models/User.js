@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Fjalëkalimi është i detyrueshëm'],
+    required: [false],
     minlength: 6,
   },
   role: {

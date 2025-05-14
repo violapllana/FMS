@@ -24,6 +24,11 @@ import ManageProfesors from "./components/Admin/ManageProfesors";
 import ReportList from "./components/Report/ReportList";
 
 import AppointmentList from "./components/Appoinment/AppoinmentList";
+import GoogleCallback from "./components/GoogleCallback";
+
+import ContactForm from "./components/ContactUs/ContactForm";
+import ContactList from "./components/ContactUs/ContactList";
+import AboutUs from "./components/AboutUs/AboutUs";
 
 
 import "./App.css";
@@ -53,6 +58,15 @@ function App() {
         
         <Route path="/reportlist" element={<ReportList />} />
         <Route path="/appointmentlist" element={<AppointmentList />} />
+
+        <Route path="/google/callback" element={<GoogleCallback />} />
+        <Route path="/contactform" element={<ContactForm />} />
+        <Route path="/contactlist" element={<ContactList />} />
+        <Route path="/aboutus" element={<AboutUs />} />
+
+
+
+
 
 
 

@@ -9,7 +9,7 @@ function Header() {
         <h1 className="text-2xl font-bold">FSM</h1>
         <nav className="space-x-6">
           <Link to="/" className="hover:underline">Home</Link>
-          {/* <Link to="/contactus" className="hover:underline">Contact Us</Link> */}
+          <Link to="/contactform" className="hover:underline">Contact Us</Link>
           <Link to="/login" className="hover:underline">Login</Link>
           <Link to="/register" className="hover:underline">Register</Link>
         </nav>
