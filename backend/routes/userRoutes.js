@@ -1,6 +1,27 @@
 const express = require('express');
 const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/authController');
+const passport = require('passport');
+
+
+
+
+router.get('/google', passport.authenticate('google', { scope: ['email'] }));
+router.get('/google/callback',
+  passport.authenticate('google', {
+    successRedirect: 'http://localhost:3000/student-dashboard',
+    failureRedirect: '/login',
+  })
+);
+
+
+router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
+router.get('/facebook/callback',
+  passport.authenticate('facebook', {
+    successRedirect: 'http://localhost:3000/student-dashboard',
+    failureRedirect: '/login',
+  })
+);
 
 /**
  * @swagger
