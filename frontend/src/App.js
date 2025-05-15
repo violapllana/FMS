@@ -29,6 +29,10 @@ import GoogleCallback from "./components/GoogleCallback";
 import ContactForm from "./components/ContactUs/ContactForm";
 import ContactList from "./components/ContactUs/ContactList";
 import AboutUs from "./components/AboutUs/AboutUs";
+import Programs from "./components/Programs";
+import Library from "./components/Library/Index";
+import Book from "./components/Book/Books";
+import BooksList from "./components/Book/BooksList";
 
 
 import "./App.css";
@@ -43,26 +47,28 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
-        
         <Route path="/admin-dashboard" element={<AdminFacultySidebar />} />
         <Route path="/student-dashboard" element={<StudentSidebar />} />
         <Route path="/professor-dashboard" element={<ProfesorSidebar />} />
         <Route path="/student" element={<StudentDashboard />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/professor" element={<ProfessorDashboard />} />
-        
-        
         <Route path="/manageadmins" element={<ManageAdmins />} />
         <Route path="/managestudents" element={<ManageStudents />} />
         <Route path="/manageprofessors" element={<ManageProfesors />} />
-        
         <Route path="/reportlist" element={<ReportList />} />
         <Route path="/appointmentlist" element={<AppointmentList />} />
-
         <Route path="/google/callback" element={<GoogleCallback />} />
         <Route path="/contactform" element={<ContactForm />} />
         <Route path="/contactlist" element={<ContactList />} />
         <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="/library" element={<Library />} />
+        <Route path="/programs" element={<Programs />} />
+        <Route path="/book" element={<Book />} />
+        <Route path="/bookslist" element={<BooksList />} />
+        
+        
+        
 
 
 

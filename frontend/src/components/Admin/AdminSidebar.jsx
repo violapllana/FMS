@@ -5,6 +5,9 @@ import ManageAdmins from './ManageAdmins';
 import ManageStudents from './ManageStudents';
 import ManageProfessors from '../../components/Admin/ManageProfesors';
 import ReportList from '../../components/Report/ReportList';
+import BooksPanel from '../../components/Book/Books';
+import ContactList from '../../components/ContactUs/ContactList';
+
 
 
 
@@ -21,16 +24,17 @@ const AdminFacultySidebar = () => {
     <>
       <div className="flex flex-col min-h-screen">
         {/* Header */}
-        <header className="bg-blue-600 text-white shadow-md">
+          <header className="bg-white-100 text-gray-800 shadow-md">
           <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Faculty Admin</h1>
+            <h1 className="text-2xl text-black font-bold">FMS Admin</h1>
             <nav className="space-x-6">
-              <button onClick={() => setShowModal(true)} className="text-white hover:text-red-300">
+              <button onClick={() => setShowModal(true)} className="text-black hover:text-red-800">
                 Logout
               </button>
             </nav>
           </div>
         </header>
+        
 
         <div className="flex flex-1 overflow-hidden">
           {/* Sidebar */}
@@ -61,6 +65,16 @@ const AdminFacultySidebar = () => {
                   Reports
                 </button>
               </li>
+                <li>
+                <button onClick={() => setActiveTab('book')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
+                  Books
+                </button>
+              </li>
+            <li>
+                <button onClick={() => setActiveTab('contactlist')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
+                  Contacts List
+                </button>
+              </li>
             </ul>
           </aside>
 
@@ -71,6 +85,9 @@ const AdminFacultySidebar = () => {
             {activeTab === 'managestudents' && <ManageStudents />}
             {activeTab === 'manageprofessors' && <ManageProfessors />}
             {activeTab === 'reportlist' && <ReportList />}
+            {activeTab === 'book' && <BooksPanel />}
+            {activeTab === 'contactlist' && <ContactList />}
+         
           </main>
         </div>
       </div>
