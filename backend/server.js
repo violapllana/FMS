@@ -11,6 +11,10 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const passportConfig = require('./passport'); // konfigurohet për Google/Facebook
 const contactRoutes = require('./routes/contactRoutes');
+const bookRoutes = require('./routes/bookRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const profesorRoutes = require('./routes/profesorRoutes');
+const studentRoutes = require('./routes/studentRoutes');
 
 
 dotenv.config();
@@ -110,8 +114,14 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // ✅ Rrugët API
 app.use('/api/auth', require('./routes/userRoutes'));
-
+app.use('/books', bookRoutes); // Routes për librat
 app.use('/contact', contactRoutes);
+app.use('/api/admins', adminRoutes);
+app.use('/api/profesors', profesorRoutes);
+app.use('/api/students', studentRoutes);
+
+
+
 
 // ✅ Startimi i serverit
 const port = process.env.PORT || 5000;
