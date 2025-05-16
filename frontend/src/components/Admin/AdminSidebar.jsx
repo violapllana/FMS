@@ -7,6 +7,7 @@ import ManageProfessors from '../../components/Admin/ManageProfesors';
 import ReportList from '../../components/Report/ReportList';
 import BooksPanel from '../../components/Book/Books';
 import ContactList from '../../components/ContactUs/ContactList';
+import ManageDepartment from './ManageDepartment';
 
 
 
@@ -75,6 +76,11 @@ const AdminFacultySidebar = () => {
                   Contacts List
                 </button>
               </li>
+               <li>
+                <button onClick={() => setActiveTab('department')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
+                 Department
+                </button>
+              </li>
             </ul>
           </aside>
 
@@ -87,6 +93,7 @@ const AdminFacultySidebar = () => {
             {activeTab === 'reportlist' && <ReportList />}
             {activeTab === 'book' && <BooksPanel />}
             {activeTab === 'contactlist' && <ContactList />}
+            {activeTab === 'department' && <ManageDepartment />}
          
           </main>
         </div>

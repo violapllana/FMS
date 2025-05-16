@@ -16,6 +16,7 @@ const adminRoutes = require('./routes/adminRoutes');
 const profesorRoutes = require('./routes/profesorRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const authRoutes = require('./routes/userRoutes');
+const departmentRoutes = require('./routes/departmentRoutes');
 
 
 dotenv.config();
@@ -120,6 +121,7 @@ app.use('/contact', contactRoutes);
 app.use('/api/admins', adminRoutes);
 app.use('/api/profesors', profesorRoutes);
 app.use('/api/students', studentRoutes);
+app.use('/api/departments', departmentRoutes);
 
 
 

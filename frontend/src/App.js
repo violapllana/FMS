@@ -26,6 +26,10 @@ import Library from "./components/Library/Index";
 import Book from "./components/Book/Books";
 import BooksList from "./components/Book/BooksList";
 import StudentsList from "./components/Student/StudentsList";
+import ManageDepartment from "./components/Admin/ManageDepartment";
+import DepartmentList from "./components/Admin/DepartmentList";
+
+
 
 
 import "./App.css";
@@ -59,7 +63,9 @@ function App() {
         <Route path="/programs" element={<Programs />} />
         <Route path="/book" element={<Book />} />
         <Route path="/bookslist" element={<BooksList />} />
-        <Route path="/studentslist" element={<StudentsList />} />
+        <Route path="/department" element={<ManageDepartment />} />
+         <Route path="/departmentList" element={<DepartmentList />} />
+
         
         
         
