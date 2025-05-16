@@ -388,40 +388,52 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setErrorMessage('');
+ const handleLogin = async (e) => {
+  e.preventDefault();
+  setErrorMessage('');
 
-    if (!email || !password) {
-      setErrorMessage('All fields are required.');
+  if (!email || !password) {
+    setErrorMessage('All fields are required.');
+    return;
+  }
+
+  try {
+    const response = await fetch('http://localhost:5000/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setErrorMessage(data.message || 'Login failed');
       return;
     }
 
-    // Replace with actual backend call
-    try {
-      const mockResponse = { status: 200, data: { user: { role: 'admin' }, token: 'token' } };
-      const data = mockResponse.data;
+    localStorage.setItem('user', JSON.stringify(data.user));
+    localStorage.setItem('token', data.token);
 
-      localStorage.setItem('user', JSON.stringify(data.user));
-      localStorage.setItem('token', data.token);
-
-      switch (data.user.role) {
-        case 'admin':
-          navigate('/admin-dashboard');
-          break;
-        case 'student':
-          navigate('/student-dashboard');
-          break;
-        case 'professor':
-          navigate('/professor-dashboard');
-          break;
-        default:
-          setErrorMessage('User role not recognized.');
-      }
-    } catch (err) {
-      setErrorMessage('Login failed.');
+    switch (data.user.role) {
+      case 'admin':
+        navigate('/admin-dashboard');
+        break;
+      case 'student':
+        navigate('/student-dashboard');
+        break;
+      case 'profesor':
+        navigate('/professor-dashboard');
+        break;
+      default:
+        setErrorMessage('User role not recognized.');
     }
-  };
+  } catch (err) {
+    console.error('Login error:', err);
+    setErrorMessage('Login failed. Please try again.');
+  }
+};
 
   const handleGoogleLogin = (response) => {
     console.log('Google token:', response.credential);

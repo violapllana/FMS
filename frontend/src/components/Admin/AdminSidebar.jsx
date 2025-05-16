@@ -14,7 +14,7 @@ import ContactList from '../../components/ContactUs/ContactList';
 const AdminFacultySidebar = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState('admin');
 
   const handleLogout = () => {
     navigate('/logout');
@@ -26,7 +26,7 @@ const AdminFacultySidebar = () => {
         {/* Header */}
           <header className="bg-white-100 text-gray-800 shadow-md">
           <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-            <h1 className="text-2xl text-black font-bold">FMS Admin</h1>
+            <h1 className="text-2xl text-black font-bold">FMS Admin Panel</h1>
             <nav className="space-x-6">
               <button onClick={() => setShowModal(true)} className="text-black hover:text-red-800">
                 Logout
@@ -41,7 +41,7 @@ const AdminFacultySidebar = () => {
           <aside className="bg-gray-100 border-r-2 border-gray-300 p-4 w-64 overflow-y-auto">
             <ul className="space-y-2">
               <li>
-                <button onClick={() => setActiveTab('dashboard')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
+                <button onClick={() => setActiveTab('admin')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
                   Dashboard
                 </button>
               </li>
