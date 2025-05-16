@@ -1,31 +1,23 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Logout from "./components/Logout"; 
 import Home from "./components/Home";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-
 import AdminFacultySidebar from "./components/Admin/AdminSidebar";
 import StudentSidebar from "./components/Student/StudentSidebar";
 import ProfesorSidebar from "./components/Profesor/ProfesorSidebar";
-
 import StudentDashboard from "./components/Student/StudentDashboard";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import ProfessorDashboard from "./components/Profesor/ProfesorDashboard";
-
-
 import ManageAdmins from "./components/Admin/ManageAdmins";
 import ManageStudents from "./components/Admin/ManageStudents";
 import ManageProfesors from "./components/Admin/ManageProfesors";
-
 import ReportList from "./components/Report/ReportList";
-
 import AppointmentList from "./components/Appoinment/AppoinmentList";
 import GoogleCallback from "./components/GoogleCallback";
-
 import ContactForm from "./components/ContactUs/ContactForm";
 import ContactList from "./components/ContactUs/ContactList";
 import AboutUs from "./components/AboutUs/AboutUs";
@@ -33,6 +25,7 @@ import Programs from "./components/Programs";
 import Library from "./components/Library/Index";
 import Book from "./components/Book/Books";
 import BooksList from "./components/Book/BooksList";
+import StudentsList from "./components/Student/StudentsList";
 
 
 import "./App.css";
@@ -66,6 +59,7 @@ function App() {
         <Route path="/programs" element={<Programs />} />
         <Route path="/book" element={<Book />} />
         <Route path="/bookslist" element={<BooksList />} />
+        <Route path="/studentslist" element={<StudentsList />} />
         
         
         

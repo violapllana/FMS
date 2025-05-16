@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const ManageAdmins = () => {
   const [admins, setAdmins] = useState([]);
-  const [name, setName] = useState('');
+  const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
@@ -28,7 +28,7 @@ const ManageAdmins = () => {
   }, []);
 
   const resetForm = () => {
-    setName('');
+    setUserName('');
     setEmail('');
     setPassword('');
     setCurrentAdminId(null);
@@ -37,7 +37,7 @@ const ManageAdmins = () => {
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${apiUrl}/`, { name, email, password });
+      await axios.post(`${apiUrl}/`, { username, email, password });
       fetchAdmins();
       setShowFormModal(false);
       resetForm();
@@ -49,7 +49,7 @@ const ManageAdmins = () => {
 const handleUpdate = async (e) => {
   e.preventDefault();
   try {
-    const updateData = { name, email };
+    const updateData = { username, email };
     if (password.trim() !== '') {
       updateData.password = password;
     }
@@ -68,7 +68,7 @@ const handleUpdate = async (e) => {
     try {
       const res = await axios.get(`${apiUrl}/${id}`);
       const admin = res.data;
-      setName(admin.name);
+      setUserName(admin.username);
       setEmail(admin.email);
       setPassword(''); // nuk e nxjerr passwordin për siguri
       setCurrentAdminId(id);
@@ -108,8 +108,8 @@ const handleUpdate = async (e) => {
       <table className="min-w-full bg-white rounded-lg overflow-hidden shadow-md">
         <thead>
           <tr>
-            <th className="px-6 py-3 text-left">#</th>
-            <th className="px-6 py-3 text-left">Name</th>
+            <th className="px-6 py-3 text-left">ID</th>
+            <th className="px-6 py-3 text-left">Username</th>
             <th className="px-6 py-3 text-left">Email</th>
             <th className="px-6 py-3 text-left">Actions</th>
           </tr>
@@ -119,7 +119,7 @@ const handleUpdate = async (e) => {
             admins.map((admin, index) => (
               <tr key={admin._id} className="border-b hover:bg-gray-50">
                 <td className="px-6 py-4">{index + 1}</td>
-                <td className="px-6 py-4">{admin.name}</td>
+                <td className="px-6 py-4">{admin.username}</td>
                 <td className="px-6 py-4">{admin.email}</td>
                 <td className="px-6 py-4 flex space-x-2">
                   <button
@@ -180,11 +180,11 @@ const handleUpdate = async (e) => {
             <h2 className="text-xl font-semibold mb-4">{isEditMode ? 'Update Admin' : 'Add New Admin'}</h2>
             <form onSubmit={isEditMode ? handleUpdate : handleCreate}>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Name</label>
+                <label className="block text-sm font-medium text-gray-700">Username</label>
                 <input
                   type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={username}
+                  onChange={(e) => setUserName(e.target.value)}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                   required
                 />

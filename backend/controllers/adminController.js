@@ -3,9 +3,9 @@ const bcrypt = require('bcryptjs');
 
 const createAdmin = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { username, email, password } = req.body;
 
-    if (!name || !email || !password) {
+    if (!username || !email || !password) {
       return res.status(400).json({ message: 'Të gjitha fushat janë të detyrueshme.' });
     }
 
@@ -17,7 +17,7 @@ const createAdmin = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newAdmin = await User.create({
-      name,
+      username,
       email,
       password: hashedPassword,
       role: 'admin',
@@ -51,12 +51,12 @@ const getAdminById = async (req, res) => {
 
 const updateAdmin = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { username, email, password } = req.body;
     const admin = await User.findOne({ _id: req.params.id, role: 'admin' });
 
     if (!admin) return res.status(404).json({ message: 'Admini nuk u gjet' });
 
-    admin.name = name || admin.name;
+    admin.name = username || admin.username;
     admin.email = email || admin.email;
 
     if (password) {

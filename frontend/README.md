@@ -1,70 +1,127 @@
-# Getting Started with Create React App
+# 🎓 FMS – Faculty Management System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A **React-based web application** for user management with different roles (student, professor, admin) and Google login.
 
-## Available Scripts
+This project is a modern web application built using **React.js** for the frontend and includes an advanced user management system based on **role-based access control (RBAC)**. It uses **Google OAuth 2.0** for secure and simplified user authentication.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 🎯 Project Goal
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The main goal is to build a flexible and secure platform for managing access and features based on user roles. This system aims to:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Simplify the authentication process using Google Sign-In.
+- Classify users based on their role and grant personalized access.
+- Provide an administration panel for managing users and permissions.
+- Restrict access to specific features based on each role’s privileges.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🧩 Key Features
 
-### `npm run build`
+### 🔐 Google Authentication
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Full integration with Google OAuth 2.0 for fast and secure login.
+- User verification and storage of user data in the database.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 🧑‍🎓 Role-Based Access Control (RBAC)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Each registered user is assigned a role: **Student**, **Professor**, or **Admin**.
+- Users only see pages and features relevant to their role.
 
-### `npm run eject`
+### 🛠️ Admin Panel
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Admins have access to a powerful dashboard for:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Viewing the list of users.
+- Changing user roles.
+- Suspending or deleting accounts.
+- Managing application content.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 🧭 Role-Specific Dashboards
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- **Students:** View personal information and assigned course materials.
+- **Professors:** Manage learning content and track student activity.
+- **Admins:** Full control over system management and user data.
 
-## Learn More
+### 🔒 Security & Data Protection
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Secure authentication using **JSON Web Tokens (JWT)**.
+- Role-based route protection with middleware.
+- Prevention of unauthorized actions or access.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## ⚙️ Technologies Used
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **Frontend:** React.js, React Router, Axios, Tailwind CSS / Bootstrap  
+- **Authentication:** Google OAuth 2.0, JWT  
+- **Backend (if applied):** Node.js + Express / .NET Core  
+- **Database:** MongoDB / MySQL (with Sequelize or Mongoose)  
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## 🧠 Learning Outcomes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- Real-world experience with external authentication (Google Sign-In).
+- Practical application of Role-Based Access Control (RBAC).
+- In-depth understanding of SPA (Single Page Application) architecture with React.
+- Implementation of best practices for secure and scalable web applications.
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🚀 Live Demo
 
-### Deployment
+🔗 [https://v0-fms-clone.vercel.app/](https://v0-fms-clone.vercel.app/)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## 📸 Images
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 🖥️ Login Page  
+`Login_FMS.png` – Displays the Google Sign-In authentication flow.
+
+### 🖥️ Register Page  
+`Register_FMS.png` – Allows new users to register and choose their role.
+
+### 🖥️ Contact Us Page  
+`ContactUs_FMS.png` – Users can send messages or feedback to the system admins.
+
+### 🖥️ Home Page  
+`Home_FMS.png` – Public landing page with general information and navigation.
+
+### 🖥️ About Us Page  
+`AboutUs_FMS.png` – Information about the system, its purpose, and the team.
+
+### 🖥️ Admin Panel Page  
+`AdminPanel_FMS.png` – Management interface where admins can oversee the entire system.
+
+### 🖥️ Professor Page  
+`Professor_FMS.png` – Interface for professors to interact with student content and materials.
+
+### 🖥️ Student Page  
+`Student_FMS.png` – Main interface for students to view their materials and tasks.
+
+### 🖥️ Library Page  
+`Library_FMS.png` – Digital library interface accessible by students and professors.
+
+### 🖥️ Admin Dashboard Page  
+`AdminDashboard_FMS.png` – Detailed dashboard with user statistics and system management options.
+
+### 🖥️ Professor Dashboard Page  
+`ProfessorDashboard_FMS.png` – Professor-specific dashboard with tools for managing classes and students.
+
+### 🖥️ Student Dashboard Page  
+`StudentDashboard_FMS.png` – Personalized student dashboard showing classes, progress, and materials.
+
+
+---
+
+## ⚙️ Installation Guide
+
+```bash
+git clone https://github.com/violapllana/FMS.git
+cd projekti-fms
+npm install
+npm start
