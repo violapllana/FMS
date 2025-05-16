@@ -8,7 +8,7 @@ import ReportList from '../../components/Report/ReportList';
 const StudentSidebar = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState('student');
 
   const handleLogout = () => {
     navigate('/logout');
@@ -17,11 +17,11 @@ const StudentSidebar = () => {
   return (
     <>
       <div className="flex flex-col min-h-screen">
-        <header className="bg-blue-600 text-white shadow-md">
+        <header className="bg-white-600 text-white shadow-md">
           <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Student Portal</h1>
+            <h1 className="text-2xl text-black font-bold">FMS Student Panel</h1>
             <nav className="space-x-6">
-              <button onClick={() => setShowModal(true)} className="text-white hover:text-red-300">
+              <button onClick={() => setShowModal(true)} className="text-black hover:text-red-600">
                 Logout
               </button>
             </nav>

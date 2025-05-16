@@ -15,6 +15,7 @@ const bookRoutes = require('./routes/bookRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const profesorRoutes = require('./routes/profesorRoutes');
 const studentRoutes = require('./routes/studentRoutes');
+const authRoutes = require('./routes/userRoutes');
 
 
 dotenv.config();
@@ -113,7 +114,7 @@ const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // ✅ Rrugët API
-app.use('/api/auth', require('./routes/userRoutes'));
+app.use('/api/auth', authRoutes); 
 app.use('/books', bookRoutes); // Routes për librat
 app.use('/contact', contactRoutes);
 app.use('/api/admins', adminRoutes);

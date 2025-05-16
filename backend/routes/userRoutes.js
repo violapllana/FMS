@@ -25,7 +25,7 @@ router.get('/facebook/callback',
 
 /**
  * @swagger
- * /api/users/register:
+ * /api/auth/register:
  *   post:
  *     summary: Regjistro përdoruesin
  *     description: Përdoret për të regjistruar një përdorues të ri.
@@ -36,7 +36,7 @@ router.get('/facebook/callback',
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               username:
  *                 type: string
  *               email:
  *                 type: string
@@ -61,7 +61,7 @@ router.post('/register', registerUser);
 
 /**
  * @swagger
- * /api/users/login:
+ * /api/auth/login:
  *   post:
  *     summary: Login për përdorues
  *     description: Përdoret për të hyrë në sistem.

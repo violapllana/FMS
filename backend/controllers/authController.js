@@ -2,7 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const registerUser = async (req, res) => {
-  const { username, email, password, role } = req.body; // ndryshuar nga 'name' në 'username'
+  const { username, email, password, role } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -13,7 +13,7 @@ const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
-      name: username, // emri i fushës në databazë
+      username,
       email,
       password: hashedPassword,
       role: role || 'student',
@@ -25,6 +25,7 @@ const registerUser = async (req, res) => {
     res.status(500).json({ message: 'Gabim gjatë regjistrimit', error: err.message });
   }
 };
+
 
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
