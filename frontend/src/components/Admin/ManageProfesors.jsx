@@ -1,10 +1,10 @@
 import React from 'react';
- import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-const ManageProfesors= () => {
 
+const ManageProfesors = () => {
   const [professors, setProfessors] = useState([]);
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');  // changed here
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
@@ -29,7 +29,7 @@ const ManageProfesors= () => {
   }, []);
 
   const resetForm = () => {
-    setName('');
+    setUsername(''); // changed here
     setEmail('');
     setPassword('');
     setCurrentProfessorId(null);
@@ -38,7 +38,7 @@ const ManageProfesors= () => {
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${apiUrl}/`, { name, email, password });
+      await axios.post(`${apiUrl}/`, { username, email, password }); // changed here
       fetchProfessors();
       setShowFormModal(false);
       resetForm();
@@ -50,7 +50,7 @@ const ManageProfesors= () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const updateData = { name, email };
+      const updateData = { username, email }; // changed here
       if (password.trim() !== '') {
         updateData.password = password;
       }
@@ -68,7 +68,7 @@ const ManageProfesors= () => {
     try {
       const res = await axios.get(`${apiUrl}/${id}`);
       const professor = res.data;
-      setName(professor.name);
+      setUsername(professor.username); // changed here
       setEmail(professor.email);
       setPassword(''); // password not fetched for security
       setCurrentProfessorId(id);
@@ -108,8 +108,8 @@ const ManageProfesors= () => {
       <table className="min-w-full bg-white rounded-lg overflow-hidden shadow-md">
         <thead>
           <tr>
-            <th className="px-6 py-3 text-left">#</th>
-            <th className="px-6 py-3 text-left">Name</th>
+            <th className="px-6 py-3 text-left">ID</th>
+            <th className="px-6 py-3 text-left">Username</th> {/* changed header */}
             <th className="px-6 py-3 text-left">Email</th>
             <th className="px-6 py-3 text-left">Actions</th>
           </tr>
@@ -119,7 +119,7 @@ const ManageProfesors= () => {
             professors.map((professor, index) => (
               <tr key={professor._id} className="border-b hover:bg-gray-50">
                 <td className="px-6 py-4">{index + 1}</td>
-                <td className="px-6 py-4">{professor.name}</td>
+                <td className="px-6 py-4">{professor.username}</td> {/* changed here */}
                 <td className="px-6 py-4">{professor.email}</td>
                 <td className="px-6 py-4 flex space-x-2">
                   <button
@@ -180,11 +180,11 @@ const ManageProfesors= () => {
             <h2 className="text-xl font-semibold mb-4">{isEditMode ? 'Update Professor' : 'Add New Professor'}</h2>
             <form onSubmit={isEditMode ? handleUpdate : handleCreate}>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Name</label>
+                <label className="block text-sm font-medium text-gray-700">Username</label> {/* changed label */}
                 <input
                   type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={username}  // changed here
+                  onChange={(e) => setUsername(e.target.value)} // changed here
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                   required
                 />
@@ -237,7 +237,5 @@ const ManageProfesors= () => {
     </div>
   );
 };
-
-
 
 export default ManageProfesors;

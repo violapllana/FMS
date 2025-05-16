@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const ManageStudents = () => {
   const [students, setStudents] = useState([]);
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
@@ -29,7 +29,7 @@ const ManageStudents = () => {
   }, []);
 
   const resetForm = () => {
-    setName('');
+    setUsername('');
     setEmail('');
     setPassword('');
     setCurrentStudentId(null);
@@ -38,7 +38,7 @@ const ManageStudents = () => {
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${apiUrl}/`, { name, email, password });
+      await axios.post(`${apiUrl}/`, { username, email, password });
       fetchStudents();
       setShowFormModal(false);
       resetForm();
@@ -50,7 +50,7 @@ const ManageStudents = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const updateData = { name, email };
+      const updateData = { username, email };
       if (password.trim() !== '') {
         updateData.password = password;
       }
@@ -68,7 +68,7 @@ const ManageStudents = () => {
     try {
       const res = await axios.get(`${apiUrl}/${id}`);
       const student = res.data;
-      setName(student.name);
+      setUsername(student.username);
       setEmail(student.email);
       setPassword(''); // password not fetched for security
       setCurrentStudentId(id);
@@ -108,8 +108,8 @@ const ManageStudents = () => {
       <table className="min-w-full bg-white rounded-lg overflow-hidden shadow-md">
         <thead>
           <tr>
-            <th className="px-6 py-3 text-left">#</th>
-            <th className="px-6 py-3 text-left">Name</th>
+            <th className="px-6 py-3 text-left">ID</th>
+            <th className="px-6 py-3 text-left">Username</th>
             <th className="px-6 py-3 text-left">Email</th>
             <th className="px-6 py-3 text-left">Actions</th>
           </tr>
@@ -119,7 +119,7 @@ const ManageStudents = () => {
             students.map((student, index) => (
               <tr key={student._id} className="border-b hover:bg-gray-50">
                 <td className="px-6 py-4">{index + 1}</td>
-                <td className="px-6 py-4">{student.name}</td>
+                <td className="px-6 py-4">{student.username}</td>
                 <td className="px-6 py-4">{student.email}</td>
                 <td className="px-6 py-4 flex space-x-2">
                   <button
@@ -180,11 +180,11 @@ const ManageStudents = () => {
             <h2 className="text-xl font-semibold mb-4">{isEditMode ? 'Update Student' : 'Add New Student'}</h2>
             <form onSubmit={isEditMode ? handleUpdate : handleCreate}>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Name</label>
+                <label className="block text-sm font-medium text-gray-700">Username</label>
                 <input
                   type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                   required
                 />

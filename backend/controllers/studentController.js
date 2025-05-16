@@ -3,9 +3,9 @@ const bcrypt = require('bcryptjs');
 
 const createStudent = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { username, email, password } = req.body;
 
-    if (!name || !email || !password) {
+    if (!username || !email || !password) {
       return res.status(400).json({ message: 'Të gjitha fushat janë të detyrueshme.' });
     }
 
@@ -17,7 +17,7 @@ const createStudent = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newStudent = await User.create({
-      name,
+      username,
       email,
       password: hashedPassword,
       role: 'student',
@@ -51,12 +51,12 @@ const getStudentById = async (req, res) => {
 
 const updateStudent = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { username, email, password } = req.body;
     const student = await User.findOne({ _id: req.params.id, role: 'student' });
 
     if (!student) return res.status(404).json({ message: 'Studenti nuk u gjet' });
 
-    student.name = name || student.name;
+    student.username = username || student.username;
     student.email = email || student.email;
 
     if (password) {
