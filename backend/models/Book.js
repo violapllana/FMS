@@ -6,6 +6,7 @@ const bookSchema = new mongoose.Schema({
   description: { type: String, required: true },
   available: { type: Boolean, default: true },
   dueDays: { type: Number, enum: [7, 14, 21], required: true },
+  imageUrl: { type: String, required: false },  // URL i fotos së librit
 });
 
 const Book = mongoose.model('Book', bookSchema);

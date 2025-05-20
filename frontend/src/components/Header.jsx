@@ -11,7 +11,7 @@ function Header() {
           <Link to="/contactform" className="hover:text-blue-500">Contact Us</Link>
           <Link to="/aboutus" className="hover:text-blue-500">About Us</Link>
           <Link to="/Library" className="hover:text-blue-500">Library</Link>
-          <Link to="/productpage" className="hover:text-blue-500">Products</Link>
+          <Link to="/bookslist" className="hover:text-blue-500">Products</Link>
           {/* <Link to="/programs" className="hover:text-blue-500">Programs</Link> */}
           <Link to="/login" className="hover:text-blue-500">Login</Link>
           <Link to="/register" className="hover:text-blue-500">Register</Link>

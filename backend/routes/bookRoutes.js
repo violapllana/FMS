@@ -45,7 +45,9 @@ const {
  *               dueDays:
  *                 type: number
  *                 enum: [7, 14, 21]
- *                 description: ID ose emri i përdoruesit që e krijon librin
+ *               imageUrl:
+ *                 type: string
+ *                 description: URL ose rruga e fotos së librit
  *     responses:
  *       201:
  *         description: Libri u shtua me sukses
@@ -133,8 +135,10 @@ router.get('/:bookId', getBookById);
  *                 type: boolean
  *               dueDays:
  *                 type: number
- *                 enum: [7, 14, 21]        
- *                 description: ID i përdoruesit që përditëson librin (nëse aplikohet)
+ *                 enum: [7, 14, 21]
+ *               imageUrl:
+ *                 type: string
+ *                 description: URL ose rruga e fotos së librit
  *     responses:
  *       200:
  *         description: Libri u përditësua me sukses

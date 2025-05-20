@@ -1,8 +1,9 @@
 const Book = require('../models/Book');
 
+// Shto libër i ri me imageUrl
 const addBook = async (req, res) => {
   try {
-    const { title, author, description, available, dueDays } = req.body;
+    const { title, author, description, available, dueDays, imageUrl } = req.body;
 
     if (![7, 14, 21].includes(Number(dueDays))) {
       return res.status(400).json({ message: 'dueDays must be 7, 14, or 21' });
@@ -14,6 +15,7 @@ const addBook = async (req, res) => {
       description,
       available,
       dueDays,
+      imageUrl,  // ruaj foto në DB
     });
 
     await newBook.save();
@@ -23,9 +25,10 @@ const addBook = async (req, res) => {
   }
 };
 
+// Përditëso libër me imageUrl
 const updateBook = async (req, res) => {
   try {
-    const { title, author, description, available, dueDays } = req.body;
+    const { title, author, description, available, dueDays, imageUrl } = req.body;
     const updateData = { title, author, description, available };
 
     if (dueDays) {
@@ -33,6 +36,10 @@ const updateBook = async (req, res) => {
         return res.status(400).json({ message: 'dueDays must be 7, 14, or 21' });
       }
       updateData.dueDays = dueDays;
+    }
+
+    if (imageUrl) {
+      updateData.imageUrl = imageUrl;
     }
 
     const book = await Book.findByIdAndUpdate(req.params.bookId, updateData, { new: true });
@@ -65,7 +72,6 @@ const getBookById = async (req, res) => {
     res.status(500).json({ message: 'Error fetching book', error: err.message });
   }
 };
-
 
 // Fshi libër
 const deleteBook = async (req, res) => {
