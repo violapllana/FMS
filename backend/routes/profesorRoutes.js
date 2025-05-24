@@ -19,7 +19,7 @@ const {
  * @swagger
  * /api/professors:
  *   post:
- *     summary: Krijon një profesor të ri
+ *     summary: 
  *     tags: [Professors]
  *     requestBody:
  *       required: true
@@ -28,7 +28,7 @@ const {
  *           schema:
  *             type: object
  *             required:
- *               - name
+ *               - username
  *               - email
  *               - password
  *             properties:
@@ -52,7 +52,7 @@ router.post('/', createProfessor);
  * @swagger
  * /api/professors:
  *   get:
- *     summary: Merr të gjithë profesorët
+ *     summary: 
  *     tags: [Professors]
  *     responses:
  *       200:
@@ -66,7 +66,7 @@ router.get('/', getProfessors);
  * @swagger
  * /api/professors/{id}:
  *   get:
- *     summary: Merr profesorin me ID
+ *     summary:
  *     tags: [Professors]
  *     parameters:
  *       - in: path
@@ -89,7 +89,7 @@ router.get('/:id', getProfessorById);
  * @swagger
  * /api/professors/{id}:
  *   put:
- *     summary: Përditëson një profesor ekzistues
+ *     summary: 
  *     tags: [Professors]
  *     parameters:
  *       - in: path
@@ -105,7 +105,7 @@ router.get('/:id', getProfessorById);
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               username:
  *                 type: string
  *               email:
  *                 type: string
@@ -125,11 +125,11 @@ router.put('/:id', updateProfessor);
  * @swagger
  * /api/professors/{id}:
  *   delete:
- *     summary: Fshin një profesor
+ *     summary: 
  *     tags: [Professors]
  *     parameters:
  *       - in: path
- *         name: id
+ *         username: id
  *         required: true
  *         description: ID e profesorit për fshirje
  *         schema:

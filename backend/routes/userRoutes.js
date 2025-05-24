@@ -1,103 +1,134 @@
 const express = require('express');
 const router = express.Router();
-const { registerUser, loginUser } = require('../controllers/authController');
-const passport = require('passport');
-
-
-
-
-router.get('/google', passport.authenticate('google', { scope: ['email'] }));
-router.get('/google/callback',
-  passport.authenticate('google', {
-    successRedirect: 'http://localhost:3000/student-dashboard',
-    failureRedirect: '/login',
-  })
-);
-
-
-router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
-router.get('/facebook/callback',
-  passport.authenticate('facebook', {
-    successRedirect: 'http://localhost:3000/student-dashboard',
-    failureRedirect: '/login',
-  })
-);
+const userController = require('../controllers/userController');
 
 /**
  * @swagger
- * /api/auth/register:
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - username
+ *         - email
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: ID unike e përdoruesit
+ *         username:
+ *           type: string
+ *         email:
+ *           type: string
+ *         password:
+ *           type: string
+ *         role:
+ *           type: string
+ *           enum: [student, profesor, admin]
+ *       example:
+ *         username: testuser
+ *         email: test@example.com
+ *         password: secret123
+ *         role: student
+ */
+
+/**
+ * @swagger
+ * /api/users:
  *   post:
- *     summary: Regjistro përdoruesin
- *     description: Përdoret për të regjistruar një përdorues të ri.
+ *     summary: Krijon një përdorues të ri
+ *     tags: [Users]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *               email:
- *                 type: string
- *                 format: email
- *               password:
- *                 type: string
- *               role:
- *                 type: string
- *                 enum:
- *                   - student
- *                   - profesor
- *                   - admin
+ *             $ref: '#/components/schemas/User'
  *     responses:
  *       201:
- *         description: Përdoruesi u regjistrua me sukses
+ *         description: Përdoruesi u krijua me sukses
  *       400:
- *         description: Email është i regjistruar tashmë
- *       500:
- *         description: Gabim gjatë regjistrimit
+ *         description: Kërkesë e pavlefshme
  */
-router.post('/register', registerUser);
+router.post('/', userController.createUser);
 
 /**
  * @swagger
- * /api/auth/login:
- *   post:
- *     summary: Login për përdorues
- *     description: Përdoret për të hyrë në sistem.
+ * /api/users:
+ *   get:
+ *     summary: Merr të gjithë përdoruesit
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Lista e përdoruesve
+ */
+router.get('/', userController.getAllUsers);
+
+/**
+ * @swagger
+ * /api/users/{id}:
+ *   get:
+ *     summary: Merr një përdorues me ID
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID e përdoruesit
+ *     responses:
+ *       200:
+ *         description: Përdoruesi u gjet
+ *       404:
+ *         description: Përdoruesi nuk u gjet
+ */
+router.get('/:id', userController.getUserById);
+
+/**
+ * @swagger
+ * /api/users/{id}:
+ *   put:
+ *     summary: Përditëson një përdorues
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *               password:
- *                 type: string
+ *             $ref: '#/components/schemas/User'
  *     responses:
  *       200:
- *         description: Login i suksesshëm dhe token JWT
- *       401:
- *         description: Fjalëkalimi i pasaktë
+ *         description: Përdoruesi u përditësua me sukses
  *       404:
- *         description: Email-i nuk ekziston
- *       500:
- *         description: Gabim gjatë login-it
+ *         description: Përdoruesi nuk ekziston
  */
-router.post('/login', loginUser);
+router.put('/:id', userController.updateUser);
 
-
-// Logout route
-router.post('/logout', (req, res) => {
-    req.logout(err => {
-      if (err) return res.status(500).json({ message: 'Logout failed' });
-      res.clearCookie('connect.sid'); // nëse përdor session cookie
-      res.status(200).json({ message: 'Logout successful' });
-    });
-  });
-  
+/**
+ * @swagger
+ * /api/users/{id}:
+ *   delete:
+ *     summary: Fshin një përdorues
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID e përdoruesit
+ *     responses:
+ *       200:
+ *         description: Përdoruesi u fshi me sukses
+ *       404:
+ *         description: Përdoruesi nuk ekziston
+ */
+router.delete('/:id', userController.deleteUser);
 
 module.exports = router;

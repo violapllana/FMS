@@ -19,7 +19,7 @@ const {
  * @swagger
  * /api/admins:
  *   post:
- *     summary: Krijon një admin të ri
+ *     summary: 
  *     tags: [Admins]
  *     requestBody:
  *       required: true
@@ -28,7 +28,7 @@ const {
  *           schema:
  *             type: object
  *             required:
- *               - name
+ *               - username
  *               - email
  *               - password
  *             properties:
@@ -52,7 +52,7 @@ router.post('/', createAdmin);
  * @swagger
  * /api/admins:
  *   get:
- *     summary: Merr të gjithë administratorët
+ *     summary: 
  *     tags: [Admins]
  *     responses:
  *       200:
@@ -66,7 +66,7 @@ router.get('/', getAdmins);
  * @swagger
  * /api/admins/{id}:
  *   get:
- *     summary: Merr një admin me ID
+ *     summary:
  *     tags: [Admins]
  *     parameters:
  *       - in: path
@@ -89,11 +89,11 @@ router.get('/:id', getAdminById);
  * @swagger
  * /api/admins/{id}:
  *   put:
- *     summary: Përditëson një admin ekzistues
+ *     summary: 
  *     tags: [Admins]
  *     parameters:
  *       - in: path
- *         name: id
+ *         username: id
  *         required: true
  *         description: ID e adminit për përditësim
  *         schema:
@@ -105,7 +105,7 @@ router.get('/:id', getAdminById);
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               username:
  *                 type: string
  *               email:
  *                 type: string
@@ -125,11 +125,11 @@ router.put('/:id', updateAdmin);
  * @swagger
  * /api/admins/{id}:
  *   delete:
- *     summary: Fshin një admin
+ *     summary: 
  *     tags: [Admins]
  *     parameters:
  *       - in: path
- *         name: id
+ *         username: id
  *         required: true
  *         description: ID e adminit për fshirje
  *         schema:

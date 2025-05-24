@@ -19,7 +19,7 @@ const {
  * @swagger
  * /api/students:
  *   post:
- *     summary: Krijon një student të ri
+ *     summary: 
  *     tags: [Students]
  *     requestBody:
  *       required: true
@@ -28,7 +28,7 @@ const {
  *           schema:
  *             type: object
  *             required:
- *               - name
+ *               - username
  *               - email
  *               - password
  *             properties:
@@ -52,7 +52,7 @@ router.post('/', createStudent);
  * @swagger
  * /api/students:
  *   get:
- *     summary: Merr të gjithë studentët
+ *     summary:
  *     tags: [Students]
  *     responses:
  *       200:
@@ -66,11 +66,11 @@ router.get('/', getStudents);
  * @swagger
  * /api/students/{id}:
  *   get:
- *     summary: Merr studentin me ID
+ *     summary:
  *     tags: [Students]
  *     parameters:
  *       - in: path
- *         name: id
+ *         username: id
  *         required: true
  *         description: ID e studentit
  *         schema:
@@ -89,11 +89,11 @@ router.get('/:id', getStudentById);
  * @swagger
  * /api/students/{id}:
  *   put:
- *     summary: Përditëson një student ekzistues
+ *     summary: 
  *     tags: [Students]
  *     parameters:
  *       - in: path
- *         name: id
+ *         username: id
  *         required: true
  *         description: ID e studentit për përditësim
  *         schema:
@@ -105,7 +105,7 @@ router.get('/:id', getStudentById);
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               username:
  *                 type: string
  *               email:
  *                 type: string
@@ -125,11 +125,11 @@ router.put('/:id', updateStudent);
  * @swagger
  * /api/students/{id}:
  *   delete:
- *     summary: Fshin një student
+ *     summary: 
  *     tags: [Students]
  *     parameters:
  *       - in: path
- *         name: id
+ *         username: id
  *         required: true
  *         description: ID e studentit për fshirje
  *         schema:

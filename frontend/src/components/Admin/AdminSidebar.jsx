@@ -8,6 +8,7 @@ import ReportList from '../../components/Report/ReportList';
 import BooksPanel from '../../components/Book/Books';
 import ContactList from '../../components/ContactUs/ContactList';
 import ManageDepartment from './ManageDepartment';
+import ManageUsers from './ManageUsers'; 
 
 
 
@@ -44,6 +45,11 @@ const AdminFacultySidebar = () => {
               <li>
                 <button onClick={() => setActiveTab('admin')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
                   Dashboard
+                </button>
+              </li>
+              <li>
+                <button onClick={() => setActiveTab('users')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
+                   Users
                 </button>
               </li>
               <li>
@@ -87,6 +93,7 @@ const AdminFacultySidebar = () => {
           {/* Main Content */}
           <main className="flex-1 overflow-y-auto p-6">
             {activeTab === 'admin' && <AdminDashboard />}
+            {activeTab === 'users' && <ManageUsers />}
             {activeTab === 'manageadmins' && <ManageAdmins />}
             {activeTab === 'managestudents' && <ManageStudents />}
             {activeTab === 'manageprofessors' && <ManageProfessors />}
