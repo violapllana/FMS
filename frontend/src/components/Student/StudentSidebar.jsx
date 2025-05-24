@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StudentDashboard from '../Student/StudentDashboard';
-
 import AppointmentList from "../../components/Appoinment/AppoinmentList";
 import ReportList from '../../components/Report/ReportList';
+import ProfesorList from '../../components/Student/ProfesorList';
 
 const StudentSidebar = () => {
   const navigate = useNavigate();
@@ -46,6 +46,11 @@ const StudentSidebar = () => {
                   Reports
                 </button>
               </li>
+                <li>
+                <button onClick={() => setActiveTab('professorslist')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
+                  Professors
+                </button>
+              </li>
             </ul>
           </aside>
 
@@ -53,6 +58,7 @@ const StudentSidebar = () => {
             {activeTab === 'student' && <StudentDashboard />}
             {activeTab === 'appointmentlist' && <AppointmentList />}
             {activeTab === 'reportlist' && <ReportList />}
+            {activeTab === 'professorslist' && <ProfesorList />}
           </main>
         </div>
       </div>

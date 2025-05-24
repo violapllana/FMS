@@ -2,9 +2,10 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const ManageProfesors = () => {
+const ManageProfessors = () => {
   const [professors, setProfessors] = useState([]);
-  const [username, setUsername] = useState('');  // changed here
+  const [searchTerm, setSearchTerm] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
@@ -13,7 +14,7 @@ const ManageProfesors = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [professorToDelete, setProfessorToDelete] = useState(null);
 
-  const apiUrl = 'http://localhost:5000/api/profesors'; // Update to your professors API
+  const apiUrl = 'http://localhost:5000/api/professors'; // API për profesorët
 
   const fetchProfessors = async () => {
     try {
@@ -29,7 +30,7 @@ const ManageProfesors = () => {
   }, []);
 
   const resetForm = () => {
-    setUsername(''); // changed here
+    setUsername('');
     setEmail('');
     setPassword('');
     setCurrentProfessorId(null);
@@ -38,7 +39,7 @@ const ManageProfesors = () => {
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${apiUrl}/`, { username, email, password }); // changed here
+      await axios.post(`${apiUrl}/`, { username, email, password });
       fetchProfessors();
       setShowFormModal(false);
       resetForm();
@@ -50,7 +51,7 @@ const ManageProfesors = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const updateData = { username, email }; // changed here
+      const updateData = { username, email };
       if (password.trim() !== '') {
         updateData.password = password;
       }
@@ -68,9 +69,9 @@ const ManageProfesors = () => {
     try {
       const res = await axios.get(`${apiUrl}/${id}`);
       const professor = res.data;
-      setUsername(professor.username); // changed here
+      setUsername(professor.username);
       setEmail(professor.email);
-      setPassword(''); // password not fetched for security
+      setPassword(''); // nuk e marrim password-in për siguri
       setCurrentProfessorId(id);
       setIsEditMode(true);
       setShowFormModal(true);
@@ -89,6 +90,10 @@ const ManageProfesors = () => {
     }
   };
 
+  const filteredProfessors = professors.filter(professor =>
+    (professor.username || '').toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <h2 className="text-3xl font-semibold mb-4 flex justify-between items-center">
@@ -99,27 +104,37 @@ const ManageProfesors = () => {
             resetForm();
             setShowFormModal(true);
           }}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm"
         >
           Add Professor
         </button>
       </h2>
 
+      <div className="mb-6 max-w-xs">
+        <input
+          type="text"
+          placeholder="Search by Username"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
       <table className="min-w-full bg-white rounded-lg overflow-hidden shadow-md">
         <thead>
           <tr>
             <th className="px-6 py-3 text-left">ID</th>
-            <th className="px-6 py-3 text-left">Username</th> {/* changed header */}
+            <th className="px-6 py-3 text-left">Username</th>
             <th className="px-6 py-3 text-left">Email</th>
             <th className="px-6 py-3 text-left">Actions</th>
           </tr>
         </thead>
         <tbody className="text-sm text-gray-700">
-          {professors.length > 0 ? (
-            professors.map((professor, index) => (
+          {filteredProfessors.length > 0 ? (
+            filteredProfessors.map((professor, index) => (
               <tr key={professor._id} className="border-b hover:bg-gray-50">
                 <td className="px-6 py-4">{index + 1}</td>
-                <td className="px-6 py-4">{professor.username}</td> {/* changed here */}
+                <td className="px-6 py-4">{professor.username}</td>
                 <td className="px-6 py-4">{professor.email}</td>
                 <td className="px-6 py-4 flex space-x-2">
                   <button
@@ -180,11 +195,11 @@ const ManageProfesors = () => {
             <h2 className="text-xl font-semibold mb-4">{isEditMode ? 'Update Professor' : 'Add New Professor'}</h2>
             <form onSubmit={isEditMode ? handleUpdate : handleCreate}>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Username</label> {/* changed label */}
+                <label className="block text-sm font-medium text-gray-700">Username</label>
                 <input
                   type="text"
-                  value={username}  // changed here
-                  onChange={(e) => setUsername(e.target.value)} // changed here
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                   required
                 />
@@ -238,4 +253,4 @@ const ManageProfesors = () => {
   );
 };
 
-export default ManageProfesors;
+export default ManageProfessors;

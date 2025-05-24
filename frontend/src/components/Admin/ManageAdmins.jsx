@@ -11,8 +11,9 @@ const ManageAdmins = () => {
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [adminToDelete, setAdminToDelete] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');  // Për kërkimin
 
-  const apiUrl = 'http://localhost:5000/api/admins'; // ndrysho sipas backend
+  const apiUrl = 'http://localhost:5000/api/admins';
 
   const fetchAdmins = async () => {
     try {
@@ -46,23 +47,22 @@ const ManageAdmins = () => {
     }
   };
 
-const handleUpdate = async (e) => {
-  e.preventDefault();
-  try {
-    const updateData = { username, email };
-    if (password.trim() !== '') {
-      updateData.password = password;
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const updateData = { username, email };
+      if (password.trim() !== '') {
+        updateData.password = password;
+      }
+      await axios.put(`${apiUrl}/${currentAdminId}`, updateData);
+      fetchAdmins();
+      setShowFormModal(false);
+      setIsEditMode(false);
+      resetForm();
+    } catch (error) {
+      console.error('Error updating admin:', error);
     }
-    await axios.put(`${apiUrl}/${currentAdminId}`, updateData);
-    fetchAdmins();
-    setShowFormModal(false);
-    setIsEditMode(false);
-    resetForm();
-  } catch (error) {
-    console.error('Error updating admin:', error);
-  }
-};
-
+  };
 
   const handleEdit = async (id) => {
     try {
@@ -89,21 +89,37 @@ const handleUpdate = async (e) => {
     }
   };
 
+  // Filtrim sipas username
+  const filteredAdmins = admins.filter(admin =>
+    admin.username.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-3xl font-semibold mb-4 flex justify-between items-center">
-        Admins
+      <div className="mb-4 flex justify-between items-center">
+        <h2 className="text-3xl font-semibold">Admins</h2>
         <button
           onClick={() => {
             setIsEditMode(false);
             resetForm();
             setShowFormModal(true);
           }}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm"
         >
           Add Admin
         </button>
-      </h2>
+      </div>
+
+      {/* Search Input për username */}
+      <div className="mb-6 max-w-xs">
+        <input
+          type="text"
+          placeholder="Search by Username"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
 
       <table className="min-w-full bg-white rounded-lg overflow-hidden shadow-md">
         <thead>
@@ -115,8 +131,8 @@ const handleUpdate = async (e) => {
           </tr>
         </thead>
         <tbody className="text-sm text-gray-700">
-          {admins.length > 0 ? (
-            admins.map((admin, index) => (
+          {filteredAdmins.length > 0 ? (
+            filteredAdmins.map((admin, index) => (
               <tr key={admin._id} className="border-b hover:bg-gray-50">
                 <td className="px-6 py-4">{index + 1}</td>
                 <td className="px-6 py-4">{admin.username}</td>

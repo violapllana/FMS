@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const ManageStudents = () => {
   const [students, setStudents] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(''); // Shtuar për search
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -89,21 +90,41 @@ const ManageStudents = () => {
     }
   };
 
+  // Filtrimi i studentëve për search (sigurohuni që username të jetë string)
+  const filteredStudents = students.filter(student =>
+    (student.username || '').toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <h2 className="text-3xl font-semibold mb-4 flex justify-between items-center">
         Students
-        <button
+
+        {/* Butoni me madhësi më të vogël */}
+      <button
           onClick={() => {
             setIsEditMode(false);
             resetForm();
             setShowFormModal(true);
           }}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm"
         >
           Add Student
         </button>
       </h2>
+
+     
+      {/* Search Input për username */}
+      <div className="mb-6 max-w-xs">
+        <input
+          type="text"
+          placeholder="Search by Username"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
 
       <table className="min-w-full bg-white rounded-lg overflow-hidden shadow-md">
         <thead>
@@ -115,8 +136,8 @@ const ManageStudents = () => {
           </tr>
         </thead>
         <tbody className="text-sm text-gray-700">
-          {students.length > 0 ? (
-            students.map((student, index) => (
+          {filteredStudents.length > 0 ? (
+            filteredStudents.map((student, index) => (
               <tr key={student._id} className="border-b hover:bg-gray-50">
                 <td className="px-6 py-4">{index + 1}</td>
                 <td className="px-6 py-4">{student.username}</td>
