@@ -9,6 +9,9 @@ import BooksPanel from '../../components/Book/Books';
 import ContactList from '../../components/ContactUs/ContactList';
 import ManageDepartment from './ManageDepartment';
 import ManageUsers from './ManageUsers'; 
+import AdminProfile from '../../components/Admin/AdminProfile';
+
+
 
 
 
@@ -47,11 +50,18 @@ const AdminFacultySidebar = () => {
                   Dashboard
                 </button>
               </li>
+               <li>
+                <button onClick={() => setActiveTab('adminProfile')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
+                   My Profile
+                </button>
+              </li>
               <li>
                 <button onClick={() => setActiveTab('users')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
                    Users
                 </button>
               </li>
+
+              
               <li>
                 <button onClick={() => setActiveTab('manageadmins')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
                   Manage Admins
@@ -101,6 +111,9 @@ const AdminFacultySidebar = () => {
             {activeTab === 'book' && <BooksPanel />}
             {activeTab === 'contactlist' && <ContactList />}
             {activeTab === 'department' && <ManageDepartment />}
+            {activeTab === 'adminProfile' && <AdminProfile />}
+
+            
          
           </main>
         </div>

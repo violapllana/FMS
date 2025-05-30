@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
 
-const API_BASE_URL = 'http://localhost:5000/api/students'; // set your backend URL
+const API_BASE_URL = 'http://localhost:5000/api/admins';
 
-const Profile = () => {
-  const storedUser = JSON.parse(localStorage.getItem('user'));
+const AdminProfile = () => {
+  const storedAdmin = JSON.parse(localStorage.getItem('admin') || localStorage.getItem('user'));
 
-  const [user, setUser] = useState(storedUser || {});
+  const [admin, setAdmin] = useState(storedAdmin || {});
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  if (!storedUser) {
-    return <p>Please log in to view your profile.</p>;
+  if (!storedAdmin) {
+    return <p>Please log in as admin to view your profile.</p>;
   }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser(prev => ({ ...prev, [name]: value }));
+    setAdmin(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSave = async () => {
-    if (!user._id && !user.id) {
-      setError('User ID is missing.');
+    if (!admin._id && !admin.id) {
+      setError('Admin ID is missing.');
       return;
     }
 
@@ -32,16 +32,15 @@ const Profile = () => {
       const token = localStorage.getItem('token'); // if you use token
 
       const bodyData = {
-        username: user.username,
-        email: user.email,
+        username: admin.username,
+        email: admin.email,
       };
 
-      // If password is entered (not empty), include it in the request body
-      if (user.password && user.password.trim() !== '') {
-        bodyData.password = user.password;
+      if (admin.password && admin.password.trim() !== '') {
+        bodyData.password = admin.password;
       }
 
-      const response = await fetch(`${API_BASE_URL}/${user._id || user.id}`, {
+      const response = await fetch(`${API_BASE_URL}/${admin._id || admin.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -55,12 +54,12 @@ const Profile = () => {
         throw new Error(errorData.message || 'Error saving data');
       }
 
-      const updatedUser = await response.json();
+      const updatedAdmin = await response.json();
 
-      localStorage.setItem('user', JSON.stringify(updatedUser));
-      setUser(updatedUser);
+      localStorage.setItem('admin', JSON.stringify(updatedAdmin));
+      setAdmin(updatedAdmin);
       setIsEditing(false);
-      alert('Data saved successfully on the server!');
+      alert('Admin data saved successfully!');
     } catch (err) {
       console.error(err);
       setError(err.message || 'Something went wrong');
@@ -71,7 +70,7 @@ const Profile = () => {
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow-md">
-      <h2 className="text-2xl font-semibold mb-4">Your Profile</h2>
+      <h2 className="text-2xl font-semibold mb-4">Admin Profile</h2>
 
       {error && <p className="text-red-600 mb-4">{error}</p>}
 
@@ -81,12 +80,12 @@ const Profile = () => {
           <input
             type="text"
             name="username"
-            value={user.username || ''}
+            value={admin.username || ''}
             onChange={handleChange}
             className="w-full border rounded px-2 py-1"
           />
         ) : (
-          <p>{user.username}</p>
+          <p>{admin.username}</p>
         )}
       </div>
 
@@ -96,23 +95,22 @@ const Profile = () => {
           <input
             type="email"
             name="email"
-            value={user.email || ''}
+            value={admin.email || ''}
             onChange={handleChange}
             className="w-full border rounded px-2 py-1"
           />
         ) : (
-          <p>{user.email}</p>
+          <p>{admin.email}</p>
         )}
       </div>
 
-      {/* Password field only in edit mode */}
       {isEditing && (
         <div className="mb-4">
           <label className="block font-medium">Password:</label>
           <input
             type="password"
             name="password"
-            value={user.password || ''}
+            value={admin.password || ''}
             onChange={handleChange}
             placeholder="Enter new password (or leave empty)"
             className="w-full border rounded px-2 py-1"
@@ -122,7 +120,7 @@ const Profile = () => {
 
       <div className="mb-4">
         <label className="block font-medium">ID:</label>
-        <p>{user._id || user.id || '-'}</p>
+        <p>{admin._id || admin.id || '-'}</p>
       </div>
 
       {isEditing ? (
@@ -145,4 +143,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default AdminProfile;
