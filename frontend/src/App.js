@@ -31,6 +31,8 @@ import DepartmentList from "./components/Admin/DepartmentList";
 import ManageUsers from "./components/Admin/ManageUsers";
 import StudentList from "./components/Profesor/StudentList";
 import ProfesorList from "./components/Student/ProfesorList";
+import Profile from "./components/Student/Profile";
+
 
 
 
@@ -71,6 +73,7 @@ function App() {
          <Route path="/users" element={<ManageUsers />} />
         <Route path="/studentslist" element={<StudentList />} />
         <Route path="/professorslist" element={<ProfesorList />} />
+        <Route path="/profile" element={<Profile />} />
 
 
         

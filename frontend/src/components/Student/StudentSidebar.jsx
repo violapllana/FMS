@@ -4,6 +4,7 @@ import StudentDashboard from '../Student/StudentDashboard';
 import AppointmentList from "../../components/Appoinment/AppoinmentList";
 import ReportList from '../../components/Report/ReportList';
 import ProfesorList from '../../components/Student/ProfesorList';
+import Profile from '../../components/Student/Profile';
 
 const StudentSidebar = () => {
   const navigate = useNavigate();
@@ -51,6 +52,11 @@ const StudentSidebar = () => {
                   Professors
                 </button>
               </li>
+                    <li>
+                <button onClick={() => setActiveTab('profile')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
+                  My Profile
+                </button>
+              </li>
             </ul>
           </aside>
 
@@ -59,6 +65,7 @@ const StudentSidebar = () => {
             {activeTab === 'appointmentlist' && <AppointmentList />}
             {activeTab === 'reportlist' && <ReportList />}
             {activeTab === 'professorslist' && <ProfesorList />}
+             {activeTab === 'profile' && <Profile />}
           </main>
         </div>
       </div>
