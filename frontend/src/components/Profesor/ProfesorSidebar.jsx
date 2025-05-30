@@ -4,6 +4,7 @@ import AppointmentList from '../Appoinment/AppoinmentList';
 import ReportList from '../Report/ReportList';
 import ProfessorDashboard from '../Profesor/ProfesorDashboard';
 import StudentList from './StudentList';
+import ProfessorProfile from '../Profesor/ProfessorProfile';
 
 
 const ProfesorSidebar = () => {
@@ -37,6 +38,13 @@ const ProfesorSidebar = () => {
                   Dashboard
                 </button>
               </li>
+                 
+                   <li>
+                <button onClick={() => setActiveTab('professorProfile')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
+                  My Profile
+                </button>
+              </li>
+              
               <li>
                 <button onClick={() => setActiveTab('appointmentlist')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
                   My Appointments
@@ -60,6 +68,9 @@ const ProfesorSidebar = () => {
             {activeTab === 'appointmentlist' && <AppointmentList />}
             {activeTab === 'reportlist' && <ReportList />}
             {activeTab === 'studentslist' && <StudentList />}
+            {activeTab === 'professorProfile' && <ProfessorProfile />}
+
+            
           </main>
         </div>
       </div>
