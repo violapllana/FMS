@@ -34,6 +34,7 @@ import ProfesorList from "./components/Student/ProfesorList";
 import Profile from "./components/Student/Profile";
 import AdminProfile from "./components/Admin/AdminProfile";
 import ProfessorProfile from "./components/Profesor/ProfessorProfile";
+import WishList from "./components/Book/WishList";
 
 
 import "./App.css";
@@ -75,6 +76,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/adminProfile" element={<AdminProfile />} />
          <Route path="/professorProfile" element={<ProfessorProfile />} />
+         <Route path="/wishlist" element={<WishList />} />
         
 
         

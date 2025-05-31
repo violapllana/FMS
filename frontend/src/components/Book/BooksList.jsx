@@ -16,13 +16,16 @@ const BooksList = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [searchAuthor, setSearchAuthor] = useState('');
-  const [sortBy, setSortBy] = useState('title'); // "title" ose "author"
-  const [availabilityFilter, setAvailabilityFilter] = useState('all'); // 'all' | 'available' | 'not-available'
+  const [sortBy, setSortBy] = useState('title');
+  const [availabilityFilter, setAvailabilityFilter] = useState('all');
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Ref për fokus kur hap modalin
+  const [toastMessage, setToastMessage] = useState('');
+  const [showToast, setShowToast] = useState(false);
+  const toastTimeoutRef = useRef(null);
+
   const modalCloseBtnRef = useRef(null);
 
   const apiUrl = 'http://localhost:5000/books';
@@ -44,19 +47,32 @@ const BooksList = () => {
     fetchBooks();
   }, []);
 
-  // Funksion për toggle favorite dhe ruajtje në localStorage
   const toggleFavorite = (bookId) => {
     let updatedFavorites = [];
+    let message = '';
+
     if (favorites.includes(bookId)) {
       updatedFavorites = favorites.filter((id) => id !== bookId);
+      message = 'Removed from favorites';
     } else {
       updatedFavorites = [...favorites, bookId];
+      message = 'Added to favorites';
     }
     setFavorites(updatedFavorites);
     localStorage.setItem('favoriteBooks', JSON.stringify(updatedFavorites));
+    showToastMessage(message);
   };
 
-  // Filter + Sort + Search efektiv
+  const showToastMessage = (message) => {
+    setToastMessage(message);
+    setShowToast(true);
+
+    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+    toastTimeoutRef.current = setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
+  };
+
   useEffect(() => {
     let tempBooks = [...books];
 
@@ -74,6 +90,12 @@ const BooksList = () => {
       );
     }
 
+    if (availabilityFilter !== 'all') {
+      tempBooks = tempBooks.filter((book) =>
+        availabilityFilter === 'available' ? book.available : !book.available
+      );
+    }
+
     tempBooks.sort((a, b) => {
       if (sortBy === 'title') {
         return a.title.localeCompare(b.title);
@@ -83,7 +105,7 @@ const BooksList = () => {
     });
 
     setFilteredBooks(tempBooks);
-  }, [books, searchTerm, searchAuthor, sortBy]);
+  }, [books, searchTerm, searchAuthor, sortBy, availabilityFilter]);
 
   const openDetails = (book) => {
     setSelectedBook(book);
@@ -95,7 +117,6 @@ const BooksList = () => {
     setShowDetailsModal(false);
   };
 
-  // Fokus tek butoni i mbylljes kur modal hapet
   useEffect(() => {
     if (showDetailsModal && modalCloseBtnRef.current) {
       modalCloseBtnRef.current.focus();
@@ -114,7 +135,7 @@ const BooksList = () => {
         </h1>
       </div>
 
-      {/* Search and Sort Filters */}
+      {/* Search, Filter and Sort */}
       <section className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div className="flex gap-4 flex-wrap w-full md:w-auto">
           <input
@@ -133,6 +154,16 @@ const BooksList = () => {
             onChange={(e) => setSearchAuthor(e.target.value)}
             aria-label="Filter books by author"
           />
+          <select
+            value={availabilityFilter}
+            onChange={(e) => setAvailabilityFilter(e.target.value)}
+            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+            aria-label="Filter by availability"
+          >
+            <option value="all">All</option>
+            <option value="available">Available</option>
+            <option value="not-available">Not Available</option>
+          </select>
         </div>
         <div className="flex items-center gap-2 w-full md:w-auto">
           <label htmlFor="sort" className="text-gray-700 font-medium">
@@ -152,7 +183,7 @@ const BooksList = () => {
       </section>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 pb-16 min-h-[400px]">
+      <main className="max-w-7xl mx-auto px-6 pb-16 min-h-[400px] relative">
         {loading ? (
           <p className="text-center text-indigo-600 text-lg font-semibold mt-20">
             Loading books...
@@ -181,7 +212,7 @@ const BooksList = () => {
                       e.stopPropagation();
                       toggleFavorite(book._id);
                     }}
-                    className={`absolute top-4 right-4 text-2xl transition-colors duration-300 ${
+                    className={`absolute top-3 right-3 text-3xl transition-colors duration-300 ${
                       isFavorite ? 'text-red-500' : 'text-gray-300 hover:text-red-400'
                     }`}
                     aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
@@ -192,7 +223,7 @@ const BooksList = () => {
                         fill="currentColor"
                         viewBox="0 0 24 24"
                         stroke="none"
-                        className="w-6 h-6"
+                        className="w-7 h-7"
                       >
                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                       </svg>
@@ -202,7 +233,7 @@ const BooksList = () => {
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
-                        className="w-6 h-6"
+                        className="w-7 h-7"
                       >
                         <path
                           strokeLinecap="round"
@@ -214,100 +245,117 @@ const BooksList = () => {
                     )}
                   </button>
 
-                  {/* Image */}
-                  {book.imageUrl ? (
-                    <img
-                      src={book.imageUrl}
-                      alt={book.title}
-                      className="w-full h-48 object-cover rounded-2xl mb-4"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="w-full h-48 bg-gray-200 rounded-2xl mb-4 flex items-center justify-center text-gray-400">
-                      No Image
-                    </div>
-                  )}
-
-                  <h3 className="text-indigo-700 font-semibold text-xl text-center">{book.title}</h3>
+                  {/* Book Image & Title only */}
+                  <img
+                    src={book.imageUrl}
+                    alt={`Cover of ${book.title}`}
+                    className="w-full h-56 object-cover rounded-2xl mb-4"
+                    loading="lazy"
+                  />
+                  <h3 className="text-indigo-700 font-semibold text-xl text-center">
+                    {book.title}
+                  </h3>
                 </div>
               );
             })}
           </div>
         ) : (
-          <p className="text-center text-gray-600 mt-20 text-lg">No books to display.</p>
+          <p className="text-center text-gray-700 mt-20 text-lg">No books found.</p>
+        )}
+
+        {/* Modal for Details */}
+        {showDetailsModal && selectedBook && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modalTitle"
+            onClick={closeDetails}
+          >
+            <div
+              className="bg-white rounded-2xl max-w-md w-full p-6 relative shadow-lg"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={closeDetails}
+                ref={modalCloseBtnRef}
+                aria-label="Close details modal"
+                className="absolute top-3 right-3 text-gray-500 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-600 rounded-full"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
+              <img
+                src={selectedBook.imageUrl}
+                alt={`Cover of ${selectedBook.title}`}
+                className="w-full h-64 object-cover rounded-xl mb-4"
+                loading="lazy"
+              />
+
+              <h2 id="modalTitle" className="text-2xl font-bold mb-2 text-indigo-700">
+                {selectedBook.title}
+              </h2>
+
+              <p className="text-gray-700 mb-1">
+                <strong>Author:</strong> {selectedBook.author}
+              </p>
+              <p className="text-gray-700 mb-1">
+                <strong>Available:</strong>{' '}
+                {selectedBook.available ? (
+                  <span className="text-green-600 font-semibold">Yes</span>
+                ) : (
+                  <span className="text-red-600 font-semibold">No</span>
+                )}
+              </p>
+              <p className="text-gray-700 mb-4">
+                <strong>Description:</strong> {selectedBook.description}
+              </p>
+          <p className="text-gray-700 mb-1">
+  <strong>Days:</strong> {selectedBook.dueDays} days
+</p>
+
+
+              {/* Favorite Toggle in Modal */}
+              <button
+                onClick={() => toggleFavorite(selectedBook._id)}
+                className={`w-full py-2 rounded-lg font-semibold text-white transition-colors duration-300 ${
+                  favorites.includes(selectedBook._id) ? 'bg-red-600 hover:bg-red-700' : 'bg-indigo-600 hover:bg-indigo-700'
+                }`}
+              >
+                {favorites.includes(selectedBook._id) ? 'Remove from Favorites' : 'Add to Favorites'}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Toast Notification */}
+        {showToast && (
+          <div className="fixed bottom-6 right-6 bg-indigo-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fadeInOut">
+            {toastMessage}
+          </div>
         )}
       </main>
 
-      {/* Details Modal */}
-      {showDetailsModal && selectedBook && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm p-6"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="modal-title"
-          aria-describedby="modal-desc"
-          onClick={closeDetails}
-          tabIndex={-1}
-        >
-          <div
-            className="bg-white rounded-3xl shadow-2xl max-w-xl w-full p-8 relative overflow-auto max-h-[90vh]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              ref={modalCloseBtnRef}
-              onClick={closeDetails}
-              className="absolute top-5 right-5 text-gray-500 hover:text-gray-800 text-3xl font-bold leading-none"
-              aria-label="Close details"
-            >
-              &times;
-            </button>
-
-            {selectedBook.imageUrl ? (
-              <img
-                src={selectedBook.imageUrl}
-                alt={selectedBook.title}
-                className="w-full h-64 object-cover rounded-2xl mb-6"
-              />
-            ) : (
-              <div className="w-full h-64 bg-gray-200 rounded-2xl mb-6 flex items-center justify-center text-gray-400">
-                No Image Available
-              </div>
-            )}
-
-            <h2
-              id="modal-title"
-              className="text-indigo-700 text-3xl font-bold mb-4"
-            >
-              {selectedBook.title}
-            </h2>
-
-            <p className="mb-3 font-semibold">
-              Author: <span className="font-normal">{selectedBook.author}</span>
-            </p>
-
-            <p
-              id="modal-desc"
-              className="mb-4 text-gray-700 leading-relaxed whitespace-pre-wrap"
-            >
-              <strong>Description:</strong> {selectedBook.description}
-            </p>
-
-            <div className="flex gap-6 text-gray-700 font-medium">
-              <p>
-                <strong>Available:</strong>{' '}
-                <span className={selectedBook.available ? 'text-green-600' : 'text-red-600'}>
-                  {selectedBook.available ? 'Yes' : 'No'}
-                </span>
-              </p>
-              <p>
-                <strong>Due Days:</strong> {selectedBook.dueDays || 7} days
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-
       <Footer />
+
+      <style jsx>{`
+        @keyframes fadeInOut {
+          0%, 100% { opacity: 0; }
+          10%, 90% { opacity: 1; }
+        }
+        .animate-fadeInOut {
+          animation: fadeInOut 3s ease forwards;
+        }
+      `}</style>
     </>
   );
 };

@@ -267,7 +267,10 @@ const BooksPanel = () => {
             <h3 className="text-xl font-semibold mb-4">
               {isEditMode ? 'Edit Book' : 'Add New Book'}
             </h3>
-            <form onSubmit={isEditMode ? handleUpdate : handleCreate} className="space-y-3">
+            <form
+              onSubmit={isEditMode ? handleUpdate : handleCreate}
+              className="space-y-4"
+            >
               <div>
                 <label className="block mb-1 font-medium">Title</label>
                 <input
@@ -278,6 +281,7 @@ const BooksPanel = () => {
                   className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
+
               <div>
                 <label className="block mb-1 font-medium">Author</label>
                 <input
@@ -288,17 +292,20 @@ const BooksPanel = () => {
                   className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
+
               <div>
                 <label className="block mb-1 font-medium">Description</label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  rows={2}
-                  className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+                  required
+                  rows={3}
+                  className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
-              <div className="flex items-center space-x-4">
-                <label className="flex items-center space-x-2">
+
+              <div>
+                <label className="inline-flex items-center space-x-2">
                   <input
                     type="checkbox"
                     checked={available}
@@ -307,35 +314,40 @@ const BooksPanel = () => {
                   />
                   <span>Available</span>
                 </label>
-                <label>
-                  <span className="block font-medium">Due Days</span>
-                  <input
-                    type="number"
-                    min="1"
-                    value={dueDays}
-                    onChange={(e) => setDueDays(e.target.value)}
-                    className="w-20 border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  />
-                </label>
               </div>
+
+              <div>
+                <label className="block mb-1 font-medium">Due Days</label>
+                <select
+                  value={dueDays}
+                  onChange={(e) => setDueDays(Number(e.target.value))}
+                  className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  required
+                >
+                  <option value={7}>7 days</option>
+                  <option value={14}>14 days</option>
+                  <option value={21}>21 days</option>
+                </select>
+              </div>
+
               <div>
                 <label className="block mb-1 font-medium">Image URL</label>
                 <input
-                  type="url"
+                  type="text"
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
-                  placeholder="Optional"
+                  placeholder="http://example.com/image.jpg"
                   className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
 
-              <div className="flex justify-end space-x-3 pt-3 border-t border-gray-200">
+              <div className="flex justify-end space-x-3 mt-4">
                 <button
                   type="button"
                   onClick={() => {
                     setShowFormModal(false);
-                    setIsEditMode(false);
                     resetForm();
+                    setIsEditMode(false);
                   }}
                   className="px-4 py-2 rounded border border-gray-300 hover:bg-gray-100"
                 >
@@ -343,9 +355,9 @@ const BooksPanel = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+                  className="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700"
                 >
-                  {isEditMode ? 'Update' : 'Add'}
+                  {isEditMode ? 'Update' : 'Create'}
                 </button>
               </div>
             </form>
@@ -356,21 +368,22 @@ const BooksPanel = () => {
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-5 max-w-sm shadow-lg">
-            <h3 className="text-lg font-semibold mb-4">Confirm Delete</h3>
-            <p className="mb-6">
-              Are you sure you want to delete this book? This action cannot be undone.
-            </p>
+          <div className="bg-white rounded-lg p-6 max-w-sm shadow-lg">
+            <h3 className="text-xl font-semibold mb-4">Confirm Delete</h3>
+            <p className="mb-6">Are you sure you want to delete this book?</p>
             <div className="flex justify-end space-x-3">
               <button
-                onClick={() => setShowDeleteModal(false)}
+                onClick={() => {
+                  setShowDeleteModal(false);
+                  setBookToDelete(null);
+                }}
                 className="px-4 py-2 rounded border border-gray-300 hover:bg-gray-100"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDelete}
-                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
               >
                 Delete
               </button>

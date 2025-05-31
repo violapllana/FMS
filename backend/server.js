@@ -156,6 +156,9 @@ const path = require('path');
 const jwt = require('jsonwebtoken');        // Nëse përdoret jwt në endpoint
 const User = require('./models/User');      // Sigurohu që ky model ekziston dhe rruge e saktë
 const userRoutes = require('./routes/userRoutes'); 
+const wishlistRouter = require('./routes/wishlistRouter');
+
+
 
 dotenv.config();
 connectDB();
@@ -274,6 +277,7 @@ app.use('/api/professors', profesorRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/users', userRoutes); 
+app.use('/api/wishlist', wishlistRouter);
 
 
 // ----------------------------
