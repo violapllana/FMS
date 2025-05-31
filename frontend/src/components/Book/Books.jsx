@@ -3,20 +3,26 @@ import axios from 'axios';
 
 const BooksPanel = () => {
   const [books, setBooks] = useState([]);
+  const [filteredBooks, setFilteredBooks] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [availabilityFilter, setAvailabilityFilter] = useState('all'); // 'all' | 'available' | 'not-available'
+
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [description, setDescription] = useState('');
   const [available, setAvailable] = useState(true);
-  const [dueDays, setDueDays] = useState(7); // default 7 ditë
+  const [dueDays, setDueDays] = useState(7);
   const [imageUrl, setImageUrl] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentBookId, setCurrentBookId] = useState(null);
+
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [bookToDelete, setBookToDelete] = useState(null);
 
   const apiUrl = 'http://localhost:5000/books';
 
+  // Fetch books
   const fetchBooks = async () => {
     try {
       const res = await axios.get(apiUrl);
@@ -30,6 +36,31 @@ const BooksPanel = () => {
     fetchBooks();
   }, []);
 
+  // Filter books when searchTerm or availabilityFilter changes
+  useEffect(() => {
+    let filtered = books;
+
+    // Filter by availability
+    if (availabilityFilter === 'available') {
+      filtered = filtered.filter(book => book.available);
+    } else if (availabilityFilter === 'not-available') {
+      filtered = filtered.filter(book => !book.available);
+    }
+
+    // Filter by search term (title or author)
+    if (searchTerm.trim() !== '') {
+      const term = searchTerm.toLowerCase();
+      filtered = filtered.filter(
+        (book) =>
+          book.title.toLowerCase().includes(term) ||
+          book.author.toLowerCase().includes(term)
+      );
+    }
+
+    setFilteredBooks(filtered);
+  }, [books, searchTerm, availabilityFilter]);
+
+  // Reset form fields
   const resetForm = () => {
     setTitle('');
     setAuthor('');
@@ -40,6 +71,7 @@ const BooksPanel = () => {
     setCurrentBookId(null);
   };
 
+  // Create book
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
@@ -60,6 +92,7 @@ const BooksPanel = () => {
     }
   };
 
+  // Update book
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -81,6 +114,7 @@ const BooksPanel = () => {
     }
   };
 
+  // Edit book: load data in form
   const handleEdit = async (id) => {
     try {
       const res = await axios.get(`${apiUrl}/${id}`);
@@ -99,207 +133,248 @@ const BooksPanel = () => {
     }
   };
 
+  // Delete book
   const handleDelete = async () => {
     try {
       await axios.delete(`${apiUrl}/delete/${bookToDelete}`);
       fetchBooks();
       setShowDeleteModal(false);
+      setBookToDelete(null);
     } catch (error) {
       console.error('Error deleting book:', error);
     }
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-3xl font-semibold mb-4 flex justify-between items-center">
-        Books
+    <div className="max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+      <h2 className="text-3xl font-semibold mb-6 flex justify-between items-center">
+        Books Management
         <button
           onClick={() => {
-            setIsEditMode(false);
             resetForm();
+            setIsEditMode(false);
             setShowFormModal(true);
           }}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded shadow"
         >
           Add Book
         </button>
       </h2>
 
-      <table className="min-w-full bg-white rounded-lg overflow-hidden shadow-md">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Description</th>
-            <th>Available</th>
-            <th>Due Days</th>
-            <th>Image</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+      {/* Search & Filter */}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+        <input
+          type="text"
+          placeholder="Search by title or author..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="flex-grow border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <select
+          value={availabilityFilter}
+          onChange={(e) => setAvailabilityFilter(e.target.value)}
+          className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          <option value="all">All</option>
+          <option value="available">Available</option>
+          <option value="not-available">Not Available</option>
+        </select>
+      </div>
 
-        <tbody className="text-sm text-gray-700">
-          {books.length > 0 ? (
-            books.map((book, index) => (
-              <tr key={book._id} className="border-b hover:bg-gray-50">
-                <td className="px-6 py-4">{index + 1}</td>
-                <td className="px-6 py-4">{book.title}</td>
-                <td className="px-6 py-4">{book.author}</td>
-                <td className="px-6 py-4">{book.description}</td>
-                <td className="px-6 py-4">{book.available ? 'Yes' : 'No'}</td>
-                <td className="px-6 py-4">{book.dueDays || 7} days</td>
-                <td className="px-6 py-4">
-                  {book.imageUrl ? (
-                    <img src={book.imageUrl} alt={book.title} className="h-16 w-auto object-contain" />
-                  ) : (
-                    'No image'
-                  )}
-                </td>
-                <td className="px-6 py-4 flex space-x-2">
-                  <button
-                    onClick={() => handleEdit(book._id)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => {
-                      setBookToDelete(book._id);
-                      setShowDeleteModal(true);
-                    }}
-                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
-                  >
-                    Delete
-                  </button>
+      {/* Books Table */}
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white rounded-lg overflow-hidden shadow-md">
+          <thead className="bg-indigo-600 text-white">
+            <tr>
+              <th className="px-6 py-3 text-left">#</th>
+              <th className="px-6 py-3 text-left">Title</th>
+              <th className="px-6 py-3 text-left">Author</th>
+              <th className="px-6 py-3 text-left">Description</th>
+              <th className="px-6 py-3 text-left">Available</th>
+              <th className="px-6 py-3 text-left">Due Days</th>
+              <th className="px-6 py-3 text-left">Image</th>
+              <th className="px-6 py-3 text-left">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody className="text-gray-700 text-sm">
+            {filteredBooks.length > 0 ? (
+              filteredBooks.map((book, index) => (
+                <tr
+                  key={book._id}
+                  className="border-b hover:bg-gray-50 transition-colors"
+                >
+                  <td className="px-6 py-4">{index + 1}</td>
+                  <td className="px-6 py-4 font-semibold">{book.title}</td>
+                  <td className="px-6 py-4">{book.author}</td>
+                  <td className="px-6 py-4 truncate max-w-xs">{book.description}</td>
+                  <td className="px-6 py-4">
+                    {book.available ? (
+                      <span className="text-green-600 font-semibold">Yes</span>
+                    ) : (
+                      <span className="text-red-600 font-semibold">No</span>
+                    )}
+                  </td>
+                  <td className="px-6 py-4">{book.dueDays || 7} days</td>
+                  <td className="px-6 py-4">
+                    {book.imageUrl ? (
+                      <img
+                        src={book.imageUrl}
+                        alt={book.title}
+                        className="h-16 w-auto object-contain rounded"
+                      />
+                    ) : (
+                      <span className="text-gray-400 italic">No image</span>
+                    )}
+                  </td>
+                  <td className="px-6 py-4 flex space-x-2">
+                    <button
+                      onClick={() => handleEdit(book._id)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded shadow"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => {
+                        setBookToDelete(book._id);
+                        setShowDeleteModal(true);
+                      }}
+                      className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded shadow"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="8"
+                  className="text-center text-gray-500 py-8"
+                >
+                  No books found.
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="8" className="text-center py-6">
-                No books to display.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
+      </div>
 
-      {/* Delete Confirmation Modal */}
-      {showDeleteModal && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
-            <h3 className="text-lg font-semibold">Are you sure you want to delete this book?</h3>
-            <div className="mt-4 flex justify-end">
-              <button
-                onClick={() => setShowDeleteModal(false)}
-                className="mr-4 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-700"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDelete}
-                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Create/Edit Modal */}
+      {/* Add/Edit Modal */}
       {showFormModal && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 max-h-[90vh] overflow-auto">
-            <h2 className="text-xl font-semibold mb-4">{isEditMode ? 'Update Book' : 'Add New Book'}</h2>
-            <form onSubmit={isEditMode ? handleUpdate : handleCreate}>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Title</label>
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg w-full max-w-md p-5 relative shadow-lg">
+            <h3 className="text-xl font-semibold mb-4">
+              {isEditMode ? 'Edit Book' : 'Add New Book'}
+            </h3>
+            <form onSubmit={isEditMode ? handleUpdate : handleCreate} className="space-y-3">
+              <div>
+                <label className="block mb-1 font-medium">Title</label>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                   required
+                  className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Author</label>
+              <div>
+                <label className="block mb-1 font-medium">Author</label>
                 <input
                   type="text"
                   value={author}
                   onChange={(e) => setAuthor(e.target.value)}
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                   required
+                  className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Description</label>
+              <div>
+                <label className="block mb-1 font-medium">Description</label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-                  rows={3}
-                  required
+                  rows={2}
+                  className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
                 />
               </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Available</label>
-                <select
-                  value={available ? 'yes' : 'no'}
-                  onChange={(e) => setAvailable(e.target.value === 'yes')}
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-                >
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
-                </select>
+              <div className="flex items-center space-x-4">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={available}
+                    onChange={(e) => setAvailable(e.target.checked)}
+                    className="form-checkbox h-5 w-5 text-indigo-600"
+                  />
+                  <span>Available</span>
+                </label>
+                <label>
+                  <span className="block font-medium">Due Days</span>
+                  <input
+                    type="number"
+                    min="1"
+                    value={dueDays}
+                    onChange={(e) => setDueDays(e.target.value)}
+                    className="w-20 border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  />
+                </label>
               </div>
-
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Due Days</label>
-                <select
-                  value={dueDays}
-                  onChange={(e) => setDueDays(Number(e.target.value))}
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-                >
-                  <option value={7}>7 days</option>
-                  <option value={14}>14 days</option>
-                  <option value={21}>21 days</option>
-                </select>
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Image URL (optional)</label>
+              <div>
+                <label className="block mb-1 font-medium">Image URL</label>
                 <input
                   type="url"
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-                  placeholder="https://example.com/image.jpg"
+                  placeholder="Optional"
+                  className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
 
-              <div className="flex justify-end space-x-4">
+              <div className="flex justify-end space-x-3 pt-3 border-t border-gray-200">
                 <button
                   type="button"
                   onClick={() => {
                     setShowFormModal(false);
-                    resetForm();
                     setIsEditMode(false);
+                    resetForm();
                   }}
-                  className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-700"
+                  className="px-4 py-2 rounded border border-gray-300 hover:bg-gray-100"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                  className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
                 >
-                  {isEditMode ? 'Update' : 'Create'}
+                  {isEditMode ? 'Update' : 'Add'}
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg p-5 max-w-sm shadow-lg">
+            <h3 className="text-lg font-semibold mb-4">Confirm Delete</h3>
+            <p className="mb-6">
+              Are you sure you want to delete this book? This action cannot be undone.
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="px-4 py-2 rounded border border-gray-300 hover:bg-gray-100"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       )}
