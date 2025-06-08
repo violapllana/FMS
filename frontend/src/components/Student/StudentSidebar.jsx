@@ -1,27 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StudentDashboard from '../Student/StudentDashboard';
 import AppointmentList from "../../components/Appoinment/AppoinmentList";
 import ReportList from '../../components/Report/ReportList';
 import ProfesorList from '../../components/Student/ProfesorList';
 import Profile from '../../components/Student/Profile';
+import BooksList from '../Book/BooksList';
+import WishList from '../../components/Book/WishList';
 
 const StudentSidebar = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [activeTab, setActiveTab] = useState('student');
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setLoggedInUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     navigate('/logout');
   };
 
   return (
     <>
       <div className="flex flex-col min-h-screen">
-        <header className="bg-white-600 text-white shadow-md">
+        <header className="bg-white text-black shadow-md">
           <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-            <h1 className="text-2xl text-black font-bold">FMS Student Panel</h1>
-            <nav className="space-x-6">
+            <h1 className="text-2xl font-bold">FMS Student Panel</h1>
+            <nav className="flex items-center gap-4">
+              {loggedInUser && (
+                <span className="text-sm font-medium text-gray-700">
+                  Welcome, {loggedInUser.username || loggedInUser.name || loggedInUser.email}
+                </span>
+              )}
               <button onClick={() => setShowModal(true)} className="text-black hover:text-red-600">
                 Logout
               </button>
@@ -47,14 +64,24 @@ const StudentSidebar = () => {
                   Reports
                 </button>
               </li>
-                <li>
+              <li>
                 <button onClick={() => setActiveTab('professorslist')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
                   Professors
                 </button>
               </li>
-                    <li>
+              <li>
                 <button onClick={() => setActiveTab('profile')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
                   My Profile
+                </button>
+              </li>
+              <li>
+                <button onClick={() => setActiveTab('bookslist')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
+                  Products
+                </button>
+              </li>
+              <li>
+                <button onClick={() => setActiveTab('wishlist')} className="block p-2 font-bold text-gray-800 hover:bg-blue-500 hover:text-white rounded">
+                  Favorites
                 </button>
               </li>
             </ul>
@@ -65,7 +92,9 @@ const StudentSidebar = () => {
             {activeTab === 'appointmentlist' && <AppointmentList />}
             {activeTab === 'reportlist' && <ReportList />}
             {activeTab === 'professorslist' && <ProfesorList />}
-             {activeTab === 'profile' && <Profile />}
+            {activeTab === 'profile' && <Profile />}
+            {activeTab === 'bookslist' && <BooksList />}
+            {activeTab === 'wishlist' && <WishList />}
           </main>
         </div>
       </div>
