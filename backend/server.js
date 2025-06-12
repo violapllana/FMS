@@ -143,7 +143,6 @@ const rateLimit = require('express-rate-limit');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
-const passportConfig = require('./passport'); // konfigurohet për Google/Facebook
 const contactRoutes = require('./routes/contactRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 const adminRoutes = require('./routes/adminRoutes');
