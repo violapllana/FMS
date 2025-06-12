@@ -34,6 +34,7 @@ import Profile from "./components/Student/Profile";
 import AdminProfile from "./components/Admin/AdminProfile";
 import ProfessorProfile from "./components/Profesor/ProfessorProfile";
 import WishList from "./components/Book/WishList";
+import PrivacyPolicy from "./components/PrivacyPolicy";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -57,6 +58,7 @@ function App() {
         <Route path="/google/callback" element={<GoogleCallback />} />
         <Route path="/header" element={<Header />} />
         <Route path="/footer" element={<Footer />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
 
         {/* ✅ Admin Routes */}
         <Route path="/admin-dashboard" element={
