@@ -1,103 +1,65 @@
 const express = require('express');
 const router = express.Router();
+const User = require('../models/User');
 const { registerUser, loginUser } = require('../controllers/authController');
-const passport = require('passport');
+const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 
+router.post('/google-login', async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
 
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
 
-router.get('/google', passport.authenticate('google', { scope: ['email'] }));
-router.get('/google/callback',
-  passport.authenticate('google', {
-    successRedirect: 'http://localhost:3000/student-dashboard',
-    failureRedirect: '/login',
-  })
-);
+    const idToken = authHeader.split(' ')[1];
 
+    const ticket = await client.verifyIdToken({
+      idToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
 
-router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
-router.get('/facebook/callback',
-  passport.authenticate('facebook', {
-    successRedirect: 'http://localhost:3000/student-dashboard',
-    failureRedirect: '/login',
-  })
-);
+    const payload = ticket.getPayload();
+    const { email, name, sub: googleId } = payload;
 
-/**
- * @swagger
- * /api/auth/register:
- *   post:
- *     summary: Regjistro përdoruesin
- *     description: Përdoret për të regjistruar një përdorues të ri.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *               email:
- *                 type: string
- *                 format: email
- *               password:
- *                 type: string
- *               role:
- *                 type: string
- *                 enum:
- *                   - student
- *                   - profesor
- *                   - admin
- *     responses:
- *       201:
- *         description: Përdoruesi u regjistrua me sukses
- *       400:
- *         description: Email është i regjistruar tashmë
- *       500:
- *         description: Gabim gjatë regjistrimit
- */
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // Create user if not exists
+      user = await User.create({
+       username: name,   
+        email,
+        googleId,
+        role: 'student', // default role
+      });
+    } else if (!user.googleId) {
+      user.googleId = googleId;
+      await user.save();
+    }
+
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    res.json({ token, user });
+  } catch (err) {
+    console.error('Google token verification failed', err);
+    res.status(401).json({ message: 'Invalid Google token' });
+  }
+});
+
 router.post('/register', registerUser);
-
-/**
- * @swagger
- * /api/auth/login:
- *   post:
- *     summary: Login për përdorues
- *     description: Përdoret për të hyrë në sistem.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *               password:
- *                 type: string
- *     responses:
- *       200:
- *         description: Login i suksesshëm dhe token JWT
- *       401:
- *         description: Fjalëkalimi i pasaktë
- *       404:
- *         description: Email-i nuk ekziston
- *       500:
- *         description: Gabim gjatë login-it
- */
 router.post('/login', loginUser);
 
-
-// Logout route
 router.post('/logout', (req, res) => {
-    req.logout(err => {
-      if (err) return res.status(500).json({ message: 'Logout failed' });
-      res.clearCookie('connect.sid'); // nëse përdor session cookie
-      res.status(200).json({ message: 'Logout successful' });
-    });
-  });
-  
+  res.clearCookie('connect.sid');
+  res.status(200).json({ message: 'Logout successful' });
+});
 
 module.exports = router;

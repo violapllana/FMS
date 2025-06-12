@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock } from 'react-icons/fa';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 import Header from './Header';
 import Footer from './Footer'; 
 import FMSLogo from '../assets/images/FMS.png'; 
@@ -61,9 +62,41 @@ const handleLogin = async (e) => {
   }
 };
 
-  const handleGoogleLogin = (response) => {
-    console.log('Google token:', response.credential);
-  };
+const handleGoogleLogin = async (credentialResponse) => {
+  try {
+    const idToken = credentialResponse.credential;
+    const response = await axios.post(
+      'http://localhost:5000/api/auth/google-login',
+      {}, // body empty sepse token në header
+      {
+        headers: { Authorization: `Bearer ${idToken}` }
+      }
+    );
+
+    const data = response.data;
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+
+    // Redirect sipas roli
+    switch (data.user.role) {
+      case 'admin':
+        navigate('/admin-dashboard');
+        break;
+      case 'student':
+        navigate('/student-dashboard');
+        break;
+      case 'profesor':
+        navigate('/professor-dashboard');
+        break;
+      default:
+        setErrorMessage('User role not recognized.');
+    }
+  } catch (error) {
+    console.error('Google login error:', error);
+    setErrorMessage('Google login failed');
+  }
+};
+
 
   const handleAppleLogin = () => {
     alert('Apple login not implemented');
@@ -72,7 +105,7 @@ const handleLogin = async (e) => {
   return (
     <>
     <Header />
-    <GoogleOAuthProvider clientId="your-client-id">
+    <GoogleOAuthProvider clientId="173061548428-2bvb3f3g52589nn0c8n2uq3prm2ofgd6.apps.googleusercontent.com">
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="flex w-full max-w-6xl bg-white rounded-xl shadow-lg overflow-hidden">
           {/* Left Side Image */}
@@ -90,23 +123,26 @@ const handleLogin = async (e) => {
               Welcome to <span className="italic font-medium">your</span> Account!
             </h2>
 
-            <div className="flex gap-2 mb-4">
-              <button
-                onClick={() => alert('Google Login')}
-                className="flex-1 bg-white border px-4 py-2 rounded-md shadow-sm flex items-center justify-center gap-2 text-sm"
-              >
-                <img src="https://img.icons8.com/color/16/google-logo.png" alt="google" />
-                Sign in with Google
-              </button>
-              <button
-                onClick={handleAppleLogin}
-                className="flex-1 bg-white border px-4 py-2 rounded-md shadow-sm flex items-center justify-center gap-2 text-sm"
-              >
-          <img src="https://img.icons8.com/color/16/facebook-new.png" alt="facebook" />
+         <div className="flex gap-2 mb-4">
+  <div className="flex-1 flex items-center justify-center">
 
-                Sign in with Facebook
-              </button>
-            </div>
+<GoogleLogin
+  onSuccess={handleGoogleLogin}
+  onError={() => {
+    console.log('Login Failed');
+  }}
+/>
+  </div>
+
+  <button
+    onClick={handleAppleLogin}
+    className="flex-1 bg-white border px-4 py-2 rounded-md shadow-sm flex items-center justify-center gap-2 text-sm"
+  >
+    <img src="https://img.icons8.com/color/16/facebook-new.png" alt="facebook" />
+    Sign in with Facebook
+  </button>
+</div>
+
 
             <form onSubmit={handleLogin}>
               <div className="mt-4">

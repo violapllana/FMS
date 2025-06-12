@@ -25,19 +25,20 @@ import Programs from "./components/Programs";
 import Library from "./components/Library/Index";
 import Book from "./components/Book/Books";
 import BooksList from "./components/Book/BooksList";
-import StudentsList from "./components/Student/StudentsList";
 import ManageDepartment from "./components/Admin/ManageDepartment";
 import DepartmentList from "./components/Admin/DepartmentList";
 import ManageUsers from "./components/Admin/ManageUsers";
 import StudentList from "./components/Profesor/StudentList";
 import ProfesorList from "./components/Student/ProfesorList";
+
+
 import Profile from "./components/Student/Profile";
 import AdminProfile from "./components/Admin/AdminProfile";
 import ProfessorProfile from "./components/Profesor/ProfessorProfile";
 import WishList from "./components/Book/WishList";
 
-
 import "./App.css";
+
 
 function App() {
   return (
@@ -77,9 +78,6 @@ function App() {
         <Route path="/adminProfile" element={<AdminProfile />} />
          <Route path="/professorProfile" element={<ProfessorProfile />} />
          <Route path="/wishlist" element={<WishList />} />
-        
-
-        
 
       </Routes>
     </Router>

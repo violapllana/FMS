@@ -195,12 +195,19 @@ app.use(cors(corsOptions));
 
 // ✅ Header manual për siguri CORS
 app.use((req, res, next) => {
+
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
+  
   next();
 });
+
+app.use(helmet.crossOriginOpenerPolicy({ policy: "unsafe-none" }));
+
+
+
 
 // ✅ Middleware bazë
 app.use(express.static('public'));  // Ruaj statikisht folderin public (përfshirë uploads)
@@ -236,34 +243,7 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-// ----------------------------
-// Example OAuth endpoint (pa ndryshime)
-app.post('/google', async (req, res) => {
-  try {
-    const { email, name, profilePicture, googleId } = req.body;
 
-    let user = await User.findOne({ where: { email } });
-
-    if (!user) {
-      user = await User.create({
-        email,
-        name,
-        profilePicture,
-        googleId,
-        role: 'student',
-      });
-    }
-
-    const token = jwt.sign({ userId: user.id, role: user.role }, 'sekretishumifshehte', { expiresIn: '1h' });
-    res.json({ token });
-
-  } catch (error) {
-    console.error('Error during OAuth callback', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-// ----------------------------
 // API Routes
 app.use('/api/auth', authRoutes);
 
