@@ -1,14 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import Header from '../Header';
-import Footer from '../Footer';
 
 const BooksList = () => {
+  // States
   const [books, setBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
-
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem('favoriteBooks');
     return saved ? JSON.parse(saved) : [];
@@ -24,21 +22,23 @@ const BooksList = () => {
 
   const [toastMessage, setToastMessage] = useState('');
   const [showToast, setShowToast] = useState(false);
-  const toastTimeoutRef = useRef(null);
 
+  // Refs
+  const toastTimeoutRef = useRef(null);
   const modalCloseBtnRef = useRef(null);
 
   const apiUrl = 'http://localhost:5000/books';
 
+  // Fetch books from API
   const fetchBooks = async () => {
     setLoading(true);
     setError(null);
     try {
       const res = await axios.get(apiUrl);
       setBooks(res.data);
-      setLoading(false);
-    } catch (err) {
+    } catch {
       setError('Failed to fetch books. Please try again.');
+    } finally {
       setLoading(false);
     }
   };
@@ -47,32 +47,7 @@ const BooksList = () => {
     fetchBooks();
   }, []);
 
-  const toggleFavorite = (bookId) => {
-    let updatedFavorites = [];
-    let message = '';
-
-    if (favorites.includes(bookId)) {
-      updatedFavorites = favorites.filter((id) => id !== bookId);
-      message = 'Removed from favorites';
-    } else {
-      updatedFavorites = [...favorites, bookId];
-      message = 'Added to favorites';
-    }
-    setFavorites(updatedFavorites);
-    localStorage.setItem('favoriteBooks', JSON.stringify(updatedFavorites));
-    showToastMessage(message);
-  };
-
-  const showToastMessage = (message) => {
-    setToastMessage(message);
-    setShowToast(true);
-
-    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
-    toastTimeoutRef.current = setTimeout(() => {
-      setShowToast(false);
-    }, 3000);
-  };
-
+  // Filter, search, and sort books
   useEffect(() => {
     let tempBooks = [...books];
 
@@ -96,17 +71,44 @@ const BooksList = () => {
       );
     }
 
-    tempBooks.sort((a, b) => {
-      if (sortBy === 'title') {
-        return a.title.localeCompare(b.title);
-      } else {
-        return a.author.localeCompare(b.author);
-      }
-    });
+    tempBooks.sort((a, b) =>
+      sortBy === 'title'
+        ? a.title.localeCompare(b.title)
+        : a.author.localeCompare(b.author)
+    );
 
     setFilteredBooks(tempBooks);
   }, [books, searchTerm, searchAuthor, sortBy, availabilityFilter]);
 
+  // Favorite toggle handler
+  const toggleFavorite = (bookId) => {
+    let updatedFavorites;
+    let message;
+
+    if (favorites.includes(bookId)) {
+      updatedFavorites = favorites.filter((id) => id !== bookId);
+      message = 'Removed from favorites';
+    } else {
+      updatedFavorites = [...favorites, bookId];
+      message = 'Added to favorites';
+    }
+
+    setFavorites(updatedFavorites);
+    localStorage.setItem('favoriteBooks', JSON.stringify(updatedFavorites));
+    showToastMessage(message);
+  };
+
+  // Show toast notification
+  const showToastMessage = (message) => {
+    setToastMessage(message);
+    setShowToast(true);
+    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+    toastTimeoutRef.current = setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
+  };
+
+  // Modal open/close handlers
   const openDetails = (book) => {
     setSelectedBook(book);
     setShowDetailsModal(true);
@@ -117,6 +119,7 @@ const BooksList = () => {
     setShowDetailsModal(false);
   };
 
+  // Focus close button when modal opens
   useEffect(() => {
     if (showDetailsModal && modalCloseBtnRef.current) {
       modalCloseBtnRef.current.focus();
@@ -125,8 +128,6 @@ const BooksList = () => {
 
   return (
     <>
-      <Header />
-
       {/* Hero Section */}
       <div className="relative bg-gradient-to-r from-indigo-600 via-purple-700 to-indigo-600 h-[300px] flex items-center justify-center">
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
@@ -135,7 +136,7 @@ const BooksList = () => {
         </h1>
       </div>
 
-      {/* Search, Filter and Sort */}
+      {/* Search, Filter & Sort Section */}
       <section className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div className="flex gap-4 flex-wrap w-full md:w-auto">
           <input
@@ -165,6 +166,7 @@ const BooksList = () => {
             <option value="not-available">Not Available</option>
           </select>
         </div>
+
         <div className="flex items-center gap-2 w-full md:w-auto">
           <label htmlFor="sort" className="text-gray-700 font-medium">
             Sort by:
@@ -189,7 +191,9 @@ const BooksList = () => {
             Loading books...
           </p>
         ) : error ? (
-          <p className="text-center text-red-600 text-lg font-semibold mt-20">{error}</p>
+          <p className="text-center text-red-600 text-lg font-semibold mt-20">
+            {error}
+          </p>
         ) : filteredBooks.length > 0 ? (
           <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             {filteredBooks.map((book) => {
@@ -213,9 +217,15 @@ const BooksList = () => {
                       toggleFavorite(book._id);
                     }}
                     className={`absolute top-3 right-3 text-3xl transition-colors duration-300 ${
-                      isFavorite ? 'text-red-500' : 'text-gray-300 hover:text-red-400'
+                      isFavorite
+                        ? 'text-red-500'
+                        : 'text-gray-300 hover:text-red-400'
                     }`}
-                    aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+                    aria-label={
+                      isFavorite
+                        ? 'Remove from favorites'
+                        : 'Add to favorites'
+                    }
                   >
                     {isFavorite ? (
                       <svg
@@ -245,14 +255,14 @@ const BooksList = () => {
                     )}
                   </button>
 
-                  {/* Book Image & Title only */}
+                  {/* Book Image & Title */}
                   <img
                     src={book.imageUrl}
                     alt={`Cover of ${book.title}`}
                     className="w-full h-56 object-cover rounded-2xl mb-4"
                     loading="lazy"
                   />
-                  <h3 className="text-indigo-700 font-semibold text-xl text-center">
+                  <h3 className="text-center text-lg font-semibold text-indigo-700 px-2">
                     {book.title}
                   </h3>
                 </div>
@@ -260,102 +270,79 @@ const BooksList = () => {
             })}
           </div>
         ) : (
-          <p className="text-center text-gray-700 mt-20 text-lg">No books found.</p>
+          <p className="text-center text-gray-500 text-lg mt-20">
+            No books found matching your criteria.
+          </p>
         )}
 
-        {/* Modal for Details */}
+        {/* Details Modal */}
         {showDetailsModal && selectedBook && (
           <div
-            className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center px-4"
             role="dialog"
             aria-modal="true"
             aria-labelledby="modalTitle"
-            onClick={closeDetails}
           >
-            <div
-              className="bg-white rounded-2xl max-w-md w-full p-6 relative shadow-lg"
-              onClick={(e) => e.stopPropagation()}
-            >
+            <div className="bg-white rounded-xl max-w-2xl w-full p-8 relative shadow-lg">
               <button
-                onClick={closeDetails}
                 ref={modalCloseBtnRef}
-                aria-label="Close details modal"
-                className="absolute top-3 right-3 text-gray-500 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-600 rounded-full"
+                onClick={closeDetails}
+                aria-label="Close book details"
+                className="absolute top-4 right-4 text-gray-700 hover:text-indigo-600 text-3xl font-bold focus:outline-none"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                &times;
               </button>
 
-              <img
-                src={selectedBook.imageUrl}
-                alt={`Cover of ${selectedBook.title}`}
-                className="w-full h-64 object-cover rounded-xl mb-4"
-                loading="lazy"
-              />
-
-              <h2 id="modalTitle" className="text-2xl font-bold mb-2 text-indigo-700">
+              <h2
+                id="modalTitle"
+                className="text-3xl font-bold text-indigo-700 mb-4 text-center"
+              >
                 {selectedBook.title}
               </h2>
 
-              <p className="text-gray-700 mb-1">
-                <strong>Author:</strong> {selectedBook.author}
-              </p>
-              <p className="text-gray-700 mb-1">
-                <strong>Available:</strong>{' '}
-                {selectedBook.available ? (
-                  <span className="text-green-600 font-semibold">Yes</span>
-                ) : (
-                  <span className="text-red-600 font-semibold">No</span>
-                )}
-              </p>
-              <p className="text-gray-700 mb-4">
-                <strong>Description:</strong> {selectedBook.description}
-              </p>
-          <p className="text-gray-700 mb-1">
-  <strong>Days:</strong> {selectedBook.dueDays} days
-</p>
-
-
-              {/* Favorite Toggle in Modal */}
-              <button
-                onClick={() => toggleFavorite(selectedBook._id)}
-                className={`w-full py-2 rounded-lg font-semibold text-white transition-colors duration-300 ${
-                  favorites.includes(selectedBook._id) ? 'bg-red-600 hover:bg-red-700' : 'bg-indigo-600 hover:bg-indigo-700'
-                }`}
-              >
-                {favorites.includes(selectedBook._id) ? 'Remove from Favorites' : 'Add to Favorites'}
-              </button>
+              <div className="flex flex-col md:flex-row gap-6">
+                <img
+                  src={selectedBook.imageUrl}
+                  alt={`Cover of ${selectedBook.title}`}
+                  className="w-full md:w-48 rounded-xl object-cover shadow-md"
+                />
+                <div className="flex flex-col gap-3">
+                  <p>
+                    <strong>Author:</strong> {selectedBook.author}
+                  </p>
+                  <p>
+                    <strong>Category:</strong> {selectedBook.category}
+                  </p>
+                  <p>
+                    <strong>Pages:</strong> {selectedBook.pages}
+                  </p>
+                  <p>
+                    <strong>Available:</strong>{' '}
+                    {selectedBook.available ? (
+                      <span className="text-green-600 font-semibold">Yes</span>
+                    ) : (
+                      <span className="text-red-600 font-semibold">No</span>
+                    )}
+                  </p>
+                  <p>
+                    <strong>Description:</strong>
+                  </p>
+                  <p className="text-gray-700 whitespace-pre-line">
+                    {selectedBook.description}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         )}
 
         {/* Toast Notification */}
         {showToast && (
-          <div className="fixed bottom-6 right-6 bg-indigo-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fadeInOut">
+          <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white px-6 py-3 rounded-full shadow-lg font-semibold animate-fade-in-out z-50">
             {toastMessage}
           </div>
         )}
       </main>
-
-      <Footer />
-
-      <style jsx>{`
-        @keyframes fadeInOut {
-          0%, 100% { opacity: 0; }
-          10%, 90% { opacity: 1; }
-        }
-        .animate-fadeInOut {
-          animation: fadeInOut 3s ease forwards;
-        }
-      `}</style>
     </>
   );
 };
