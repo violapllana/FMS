@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const API_BASE_URL = 'http://localhost:5000/api/professors'; // professor backend URL
+const API_BASE_URL = 'http://localhost:5000/api/professors'; 
 
 const ProfessorProfile = () => {
   const storedUser = JSON.parse(localStorage.getItem('user'));

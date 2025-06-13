@@ -35,7 +35,7 @@ const userController = require('../controllers/userController');
  * @swagger
  * /api/users:
  *   post:
- *     summary: Krijon një përdorues të ri
+ *     summary: 
  *     tags: [Users]
  *     requestBody:
  *       required: true
@@ -55,7 +55,7 @@ router.post('/', userController.createUser);
  * @swagger
  * /api/users:
  *   get:
- *     summary: Merr të gjithë përdoruesit
+ *     summary: 
  *     tags: [Users]
  *     responses:
  *       200:
@@ -67,7 +67,7 @@ router.get('/', userController.getAllUsers);
  * @swagger
  * /api/users/{id}:
  *   get:
- *     summary: Merr një përdorues me ID
+ *     summary:
  *     tags: [Users]
  *     parameters:
  *       - in: path
@@ -88,7 +88,7 @@ router.get('/:id', userController.getUserById);
  * @swagger
  * /api/users/{id}:
  *   put:
- *     summary: Përditëson një përdorues
+ *     summary: 
  *     tags: [Users]
  *     parameters:
  *       - in: path
@@ -114,7 +114,7 @@ router.put('/:id', userController.updateUser);
  * @swagger
  * /api/users/{id}:
  *   delete:
- *     summary: Fshin një përdorues
+ *     summary: 
  *     tags: [Users]
  *     parameters:
  *       - in: path

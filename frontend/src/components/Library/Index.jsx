@@ -1,38 +1,3 @@
-// import React from 'react';
-// import { Link } from 'react-router-dom';
-// import Header from '../Header';
-// import Footer from '../Footer';
-
-// const Library = () => {
-//   return (
-//     <>
-// <Header />
-//     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-300 flex items-center justify-center">
-//       <div className="bg-white p-10 rounded-2xl shadow-lg text-center max-w-xl">
-//         <h1 className="text-4xl font-bold mb-6 text-blue-800">Mirësevini në Bibliotekën Online 📚</h1>
-//         <p className="text-gray-700 text-lg mb-6">
-//           Këtu mund të shfletoni librat tanë, të huazoni libra dhe të menaxhoni huazimet tuaja në mënyrë të lehtë.
-//         </p>
-//         <div className="flex justify-center gap-4">
-//           <Link to="/books">
-//             <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-full">
-//               Shfleto Librat
-//             </button>
-//           </Link>
-//           <Link to="/rentals">
-//             <button className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-5 rounded-full">
-//               Menaxho Huazimet
-//             </button>
-//           </Link>
-//         </div>
-//       </div>
-//     </div>
-//         <Footer />
-//     </>
-//   );
-// };
-
-// export default Library;
 import React from 'react';
 import Header from '../Header';
 import Footer from '../Footer';

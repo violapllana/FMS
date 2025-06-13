@@ -150,10 +150,10 @@ const profesorRoutes = require('./routes/profesorRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const authRoutes = require('./routes/authRoutes');
 const departmentRoutes = require('./routes/departmentRoutes');
-const multer = require('multer');           // Shtojmë multer
+const multer = require('multer');        
 const path = require('path');
-const jwt = require('jsonwebtoken');        // Nëse përdoret jwt në endpoint
-const User = require('./models/User');      // Sigurohu që ky model ekziston dhe rruge e saktë
+const jwt = require('jsonwebtoken');       
+const User = require('./models/User');    
 const userRoutes = require('./routes/userRoutes'); 
 const wishlistRouter = require('./routes/wishlistRouter');
 
@@ -164,26 +164,25 @@ connectDB();
 
 const app = express();
 
-// ✅ Konfigurimi i multer për ruajtjen e fotove
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'public/uploads/');
   },
   filename: (req, file, cb) => {
-    // Emri i fotos: timestamp + extensioni origjinal
+
     cb(null, Date.now() + path.extname(file.originalname));
   }
 });
 const upload = multer({ storage });
 
-// ✅ Middleware për siguri
+
 app.use(helmet());
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 900,
 }));
 
-// ✅ CORS konfigurimi
 const corsOptions = {
   origin: 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -192,7 +191,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// ✅ Header manual për siguri CORS
+
 app.use((req, res, next) => {
 
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -206,14 +205,11 @@ app.use((req, res, next) => {
 app.use(helmet.crossOriginOpenerPolicy({ policy: "unsafe-none" }));
 
 
-
-
-// ✅ Middleware bazë
-app.use(express.static('public'));  // Ruaj statikisht folderin public (përfshirë uploads)
+app.use(express.static('public'));  
 app.use(express.json());
 app.use(cookieParser());
 
-// ✅ Session dhe Passport konfigurimi (vetëm një herë!)
+
 app.use(session({
   secret: process.env.SESSION_SECRET || 'supersecret',
   resave: false,
@@ -227,14 +223,15 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ✅ Swagger Dokumentim
+
+
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
       title: 'Fakulteti API',
       version: '1.0.0',
-      description: 'API për menaxhimin e fakultetit (Regjistrim, Login, etj.)',
+      description: 'API për menaxhimin e fakultetit ',
     },
   },
   apis: ['./routes/*.js'],
@@ -243,13 +240,8 @@ const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
-// API Routes
 app.use('/api/auth', authRoutes);
-
-// Për shembull: në bookRoutes, për upload foto përdor multer
-// Në bookRoutes do përdorim middleware upload.single('image') për endpoint që ngarkon foto
 app.use('/books', bookRoutes);
-
 app.use('/contact', contactRoutes);
 app.use('/api/admins', adminRoutes);
 app.use('/api/professors', profesorRoutes);
@@ -259,8 +251,6 @@ app.use('/api/users', userRoutes);
 app.use('/api/wishlist', wishlistRouter);
 
 
-// ----------------------------
-// Start server
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`🚀 Serveri është duke dëgjuar në portin ${port}`);

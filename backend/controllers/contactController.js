@@ -1,6 +1,6 @@
 const ContactForm = require('../models/contactform');
 
-// Krijimi i një kontakti të ri
+
 const createContact = async (req, res) => {
   try {
     const { firstName, lastName, email, phoneNumber, reason, messageContent } = req.body;
@@ -29,7 +29,6 @@ const createContact = async (req, res) => {
   }
 };
 
-// Marrja e të gjitha kontakteve (me pagination)
 const getContacts = async (req, res) => {
   try {
     const { page = 1, limit = 10 } = req.query;
@@ -44,7 +43,7 @@ const getContacts = async (req, res) => {
   }
 };
 
-// Fshirja e një kontakti me ID
+
 const deleteContact = async (req, res) => {
   try {
     const { id } = req.params;
@@ -61,7 +60,7 @@ const deleteContact = async (req, res) => {
   }
 };
 
-// Marrja e një kontakti me ID
+
 const getContactById = async (req, res) => {
   try {
     const { id } = req.params;

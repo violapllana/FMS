@@ -5,7 +5,7 @@ const ProfesorList = () => {
   const [profesors, setProfesors] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const apiUrl = 'http://localhost:5000/api/professors'; // ndrysho URL sipas API-së për profesoret
+  const apiUrl = 'http://localhost:5000/api/professors'; 
 
   const fetchProfesors = async () => {
     try {
@@ -20,7 +20,7 @@ const ProfesorList = () => {
     fetchProfesors();
   }, []);
 
-  // Filtrimi i profesoreve për search
+
   const filteredProfesors = profesors.filter(profesor =>
     (profesor.username || '').toLowerCase().includes(searchTerm.toLowerCase())
   );

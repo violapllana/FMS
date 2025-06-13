@@ -17,7 +17,7 @@ router.post('/facebook-login', async (req, res) => {
   }
 
   try {
-    // Merr të dhënat e përdoruesit nga Facebook Graph API
+
     const fbRes = await axios.get('https://graph.facebook.com/me', {
       params: {
         fields: 'id,name,email',
@@ -38,7 +38,7 @@ router.post('/facebook-login', async (req, res) => {
         username: name,
         email,
         facebookId,
-        role: 'student', // default role
+        role: 'student', 
       });
     } else if (!user.facebookId) {
       user.facebookId = facebookId;
@@ -85,12 +85,12 @@ router.post('/google-login', async (req, res) => {
     let user = await User.findOne({ email });
 
     if (!user) {
-      // Create user if not exists
+   
       user = await User.create({
        username: name,   
         email,
         googleId,
-        role: 'student', // default role
+        role: 'student', 
       });
     } else if (!user.googleId) {
       user.googleId = googleId;
@@ -109,9 +109,102 @@ router.post('/google-login', async (req, res) => {
     res.status(401).json({ message: 'Invalid Google token' });
   }
 });
+/**
+ * @swagger
+ * tags:
+ *   name: Auth
+ *   description: 
+ */
 
+/**
+ * @swagger
+ * /api/auth/register:
+ *   post:
+ *     summary: 
+ *     tags: [Auth]
+ *     requestBody:
+ *       description: Të dhënat për regjistrim të përdoruesit
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - username
+ *               - email
+ *               - password
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 example: johndoe
+ *               email:
+ *                 type: string
+ *                 example: johndoe@example.com
+ *               password:
+ *                 type: string
+ *                 example: strongPassword123
+ *     responses:
+ *       201:
+ *         description: Përdoruesi u regjistrua me sukses
+ *       400:
+ *         description: Të dhëna të pa plota ose të gabuara
+ *       500:
+ *         description: Gabim serveri
+ */
 router.post('/register', registerUser);
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: 
+ *     tags: [Auth]
+ *     requestBody:
+ *       description: Kredencialet e përdoruesit për login
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: johndoe@example.com
+ *               password:
+ *                 type: string
+ *                 example: strongPassword123
+ *     responses:
+ *       200:
+ *         description: Login i suksesshëm, kthen token ose sesion
+ *       401:
+ *         description: Kredenciale të pavlefshme
+ *       500:
+ *         description: Gabim serveri
+ */
 router.post('/login', loginUser);
+
+/**
+ * @swagger
+ * /api/auth/logout:
+ *   post:
+ *     summary:
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: Logout i suksesshëm
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Logout successful
+ *       500:
+ *         description: Gabim serveri
+ */
 
 router.post('/logout', (req, res) => {
   res.clearCookie('connect.sid');

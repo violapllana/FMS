@@ -1,16 +1,16 @@
 const Department = require('../models/department');
 
-// Shton një departament të ri me validime të thjeshta
+
 const addDepartment = async (req, res) => {
   try {
     const { name, director, location, email, phoneNumber } = req.body;
 
-    // Shembull validimi i thjeshtë: name duhet të jetë i pranishëm
+  
     if (!name || typeof name !== 'string' || name.trim() === '') {
       return res.status(400).json({ message: 'Name is required and must be a non-empty string' });
     }
 
-    // Nëse dëshiron mund të bësh validime të tjera, p.sh. për email, phoneNumber, etj.
+
 
     const newDepartment = new Department({
       name: name.trim(),

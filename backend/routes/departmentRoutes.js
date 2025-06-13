@@ -51,14 +51,14 @@ const {
  * @swagger
  * tags:
  *   name: Departments
- *   description: API për menaxhimin e departamenteve
+ *   description: 
  */
 
 /**
  * @swagger
  * /departments/add:
  *   post:
- *     summary: Shton një ose më shumë departamente të reja
+ *     summary: 
  *     tags: [Departments]
  *     requestBody:
  *       required: true
@@ -84,7 +84,7 @@ router.post('/add', addDepartment);
  * @swagger
  * /departments:
  *   get:
- *     summary: Merr të gjithë departamentet
+ *     summary: 
  *     tags: [Departments]
  *     responses:
  *       200:
@@ -104,7 +104,7 @@ router.get('/', getDepartments);
  * @swagger
  * /departments/{departmentId}:
  *   get:
- *     summary: Merr një departament sipas ID-së
+ *     summary:
  *     tags: [Departments]
  *     parameters:
  *       - name: departmentId
@@ -131,7 +131,7 @@ router.get('/:departmentId', getDepartmentById);
  * @swagger
  * /departments/update/{departmentId}:
  *   put:
- *     summary: Përditëson një departament ekzistues
+ *     summary: 
  *     tags: [Departments]
  *     parameters:
  *       - name: departmentId
@@ -160,7 +160,7 @@ router.put('/update/:departmentId', updateDepartment);
  * @swagger
  * /departments/delete/{departmentId}:
  *   delete:
- *     summary: Fshin një departament
+ *     summary: 
  *     tags: [Departments]
  *     parameters:
  *       - name: departmentId

@@ -12,14 +12,14 @@ const {
  * @swagger
  * tags:
  *   name: Books
- *   description: API për menaxhimin e librave
+ *   description: 
  */
 
 /**
  * @swagger
  * /books/add:
  *   post:
- *     summary: Shton një libër të ri
+ *     summary: 
  *     tags: [Books]
  *     requestBody:
  *       required: true
@@ -62,7 +62,7 @@ router.post('/add', addBook);
  * @swagger
  * /books:
  *   get:
- *     summary: Merr të gjithë librat
+ *     summary: 
  *     tags: [Books]
  *     responses:
  *       200:
@@ -82,7 +82,7 @@ router.get('/', getBooks);
  * @swagger
  * /books/{bookId}:
  *   get:
- *     summary: Merr një libër sipas ID-së
+ *     summary: 
  *     tags: [Books]
  *     parameters:
  *       - name: bookId
@@ -109,7 +109,7 @@ router.get('/:bookId', getBookById);
  * @swagger
  * /books/update/{bookId}:
  *   put:
- *     summary: Përditëson një libër ekzistues
+ *     summary: 
  *     tags: [Books]
  *     parameters:
  *       - name: bookId
@@ -155,7 +155,7 @@ router.put('/update/:bookId', updateBook);
  * @swagger
  * /books/delete/{bookId}:
  *   delete:
- *     summary: Fshin një libër
+ *     summary:
  *     tags: [Books]
  *     parameters:
  *       - name: bookId

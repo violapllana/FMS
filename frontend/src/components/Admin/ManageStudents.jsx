@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const ManageStudents = () => {
   const [students, setStudents] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(''); // Shtuar për search
+  const [searchTerm, setSearchTerm] = useState(''); 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +14,7 @@ const ManageStudents = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [studentToDelete, setStudentToDelete] = useState(null);
 
-  const apiUrl = 'http://localhost:5000/api/students'; // Update to your students API
+  const apiUrl = 'http://localhost:5000/api/students'; 
 
   const fetchStudents = async () => {
     try {
@@ -71,7 +71,7 @@ const ManageStudents = () => {
       const student = res.data;
       setUsername(student.username);
       setEmail(student.email);
-      setPassword(''); // password not fetched for security
+      setPassword(''); 
       setCurrentStudentId(id);
       setIsEditMode(true);
       setShowFormModal(true);
@@ -90,7 +90,7 @@ const ManageStudents = () => {
     }
   };
 
-  // Filtrimi i studentëve për search (sigurohuni që username të jetë string)
+
   const filteredStudents = students.filter(student =>
     (student.username || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -100,7 +100,7 @@ const ManageStudents = () => {
       <h2 className="text-3xl font-semibold mb-4 flex justify-between items-center">
         Students
 
-        {/* Butoni me madhësi më të vogël */}
+      
       <button
           onClick={() => {
             setIsEditMode(false);
@@ -114,7 +114,7 @@ const ManageStudents = () => {
       </h2>
 
      
-      {/* Search Input për username */}
+
       <div className="mb-6 max-w-xs">
         <input
           type="text"
@@ -171,7 +171,7 @@ const ManageStudents = () => {
         </tbody>
       </table>
 
-      {/* Delete Confirmation Modal */}
+
       {showDeleteModal && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
@@ -194,7 +194,7 @@ const ManageStudents = () => {
         </div>
       )}
 
-      {/* Create/Edit Modal */}
+
       {showFormModal && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 max-h-[90vh] overflow-auto">

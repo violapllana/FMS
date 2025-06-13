@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const API_BASE_URL = 'http://localhost:5000/api/students'; // set your backend URL
+const API_BASE_URL = 'http://localhost:5000/api/students'; 
 
 const Profile = () => {
   const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -29,14 +29,14 @@ const Profile = () => {
     setError(null);
 
     try {
-      const token = localStorage.getItem('token'); // if you use token
+      const token = localStorage.getItem('token'); 
 
       const bodyData = {
         username: user.username,
         email: user.email,
       };
 
-      // If password is entered (not empty), include it in the request body
+     
       if (user.password && user.password.trim() !== '') {
         bodyData.password = user.password;
       }

@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 const AppointmentList = () => {
   const [appointments, setAppointments] = useState([]);
 
-  // Simulimi i të dhënave të takimeve, mund të zëvendësohet me një API
+
   useEffect(() => {
-    // Simulimi i të dhënave të takimeve
+
     setAppointments([
       { id: 1, patient: 'John Doe', date: '2025-05-10', status: 'Confirmed' },
       { id: 2, patient: 'Jane Smith', date: '2025-05-12', status: 'Pending' },

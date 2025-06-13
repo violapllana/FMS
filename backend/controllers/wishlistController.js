@@ -1,10 +1,10 @@
 
 const User = require('../models/User');
 
-// Merr wishlist-in e përdoruesit
+
 const getWishlist = async (req, res) => {
   try {
-    const userId = req.userId; // merr ID-në e përdoruesit nga middleware auth (ose nga token)
+    const userId = req.userId; 
     const user = await User.findById(userId).populate('wishlist');
     if (!user) return res.status(404).json({ message: 'Përdoruesi nuk u gjet' });
 
@@ -14,7 +14,7 @@ const getWishlist = async (req, res) => {
   }
 };
 
-// Shto libër në wishlist
+
 const addToWishlist = async (req, res) => {
   try {
     const userId = req.userId;
@@ -36,7 +36,7 @@ const addToWishlist = async (req, res) => {
   }
 };
 
-// Fshi libër nga wishlist
+
 const removeFromWishlist = async (req, res) => {
   try {
     const userId = req.userId;

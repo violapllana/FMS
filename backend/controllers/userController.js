@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
-// ✅ CREATE USER
+
 const createUser = async (req, res) => {
   try {
     const { username, email, password, role } = req.body;
@@ -21,7 +21,7 @@ const createUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      role: role || 'student', // nëse nuk dërgohet, default 'student'
+      role: role || 'student', 
     });
 
     res.status(201).json(newUser);
@@ -30,17 +30,17 @@ const createUser = async (req, res) => {
   }
 };
 
-// ✅ GET ALL USERS
+
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find(); // të gjithë userat
+    const users = await User.find(); 
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: 'Gabim në marrjen e përdoruesve', error });
   }
 };
 
-// ✅ GET USER BY ID
+
 const getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -52,7 +52,7 @@ const getUserById = async (req, res) => {
   }
 };
 
-// ✅ UPDATE USER
+
 const updateUser = async (req, res) => {
   try {
     const { username, email, password, role } = req.body;
@@ -76,7 +76,7 @@ const updateUser = async (req, res) => {
   }
 };
 
-// ✅ DELETE USER
+
 const deleteUser = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);

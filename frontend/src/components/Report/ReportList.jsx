@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 const ReportList = () => {
   const [reports, setReports] = useState([]);
 
-  // Simulimi i të dhënave të raporteve, mund të zëvendësohet me një API
+
   useEffect(() => {
-    // Simulimi i të dhënave të raporteve
+  
     setReports([
       { id: 1, title: 'Annual Faculty Report', date: '2025-04-01', status: 'Completed' },
       { id: 2, title: 'Student Enrollment Report', date: '2025-04-15', status: 'In Progress' },

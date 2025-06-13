@@ -29,7 +29,7 @@ const AdminProfile = () => {
     setError(null);
 
     try {
-      const token = localStorage.getItem('token'); // if you use token
+      const token = localStorage.getItem('token'); 
 
       const bodyData = {
         username: admin.username,

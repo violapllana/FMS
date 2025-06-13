@@ -6,10 +6,10 @@ import Footer from "../Footer";
 
 const ContactUs = ({ onMessageAdded }) => {
   const [responseMessage, setResponseMessage] = useState("");
-  const [messageType, setMessageType] = useState(""); // "success" ose "error"
+  const [messageType, setMessageType] = useState(""); 
   const [loading, setLoading] = useState(false);
 
-  // Skema e validimit me Yup
+
   const validationSchema = Yup.object({
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string(),
@@ -21,7 +21,7 @@ const ContactUs = ({ onMessageAdded }) => {
     messageContent: Yup.string().required("Message is required"),
   });
 
-  // Funksioni për dërgimin e mesazhit
+
   const handleSubmit = async (values, { resetForm }) => {
     setLoading(true);
     setResponseMessage("");

@@ -12,7 +12,7 @@ const {
  * @swagger
  * tags:
  *   name: Admins
- *   description: API për menaxhimin e administratorëve
+ *   description: 
  */
 
 /**

@@ -2,7 +2,7 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import HeroImage from '../assets/images/students.png'; // Adjust the path if your assets folder is inside src
+import HeroImage from '../assets/images/students.png'; 
 
 const Home = () => {
   return (

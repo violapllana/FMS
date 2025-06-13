@@ -12,7 +12,7 @@ const {
  * @swagger
  * tags:
  *   name: Students
- *   description: API për menaxhimin e studentëve
+ *   description: 
  */
 
 /**

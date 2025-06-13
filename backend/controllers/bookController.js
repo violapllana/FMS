@@ -1,6 +1,6 @@
 const Book = require('../models/Book');
 
-// Shto libër i ri me imageUrl
+
 const addBook = async (req, res) => {
   try {
     const { title, author, description, available, dueDays, imageUrl } = req.body;
@@ -15,7 +15,7 @@ const addBook = async (req, res) => {
       description,
       available,
       dueDays,
-      imageUrl,  // ruaj foto në DB
+      imageUrl, 
     });
 
     await newBook.save();
@@ -25,7 +25,7 @@ const addBook = async (req, res) => {
   }
 };
 
-// Përditëso libër me imageUrl
+
 const updateBook = async (req, res) => {
   try {
     const { title, author, description, available, dueDays, imageUrl } = req.body;
@@ -52,7 +52,7 @@ const updateBook = async (req, res) => {
   }
 };
 
-// Merr të gjitha librat
+
 const getBooks = async (req, res) => {
   try {
     const books = await Book.find();
@@ -62,7 +62,6 @@ const getBooks = async (req, res) => {
   }
 };
 
-// Merr libër sipas ID
 const getBookById = async (req, res) => {
   try {
     const book = await Book.findById(req.params.bookId);
@@ -73,7 +72,7 @@ const getBookById = async (req, res) => {
   }
 };
 
-// Fshi libër
+
 const deleteBook = async (req, res) => {
   try {
     const book = await Book.findByIdAndDelete(req.params.bookId);

@@ -11,7 +11,7 @@ const ManageAdmins = () => {
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [adminToDelete, setAdminToDelete] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');  // Për kërkimin
+  const [searchTerm, setSearchTerm] = useState(''); 
 
   const apiUrl = 'http://localhost:5000/api/admins';
 
@@ -70,7 +70,7 @@ const ManageAdmins = () => {
       const admin = res.data;
       setUserName(admin.username);
       setEmail(admin.email);
-      setPassword(''); // nuk e nxjerr passwordin për siguri
+      setPassword(''); 
       setCurrentAdminId(id);
       setIsEditMode(true);
       setShowFormModal(true);
@@ -89,7 +89,6 @@ const ManageAdmins = () => {
     }
   };
 
-  // Filtrim sipas username
   const filteredAdmins = admins.filter(admin =>
     admin.username.toLowerCase().includes(searchTerm.toLowerCase())
   );

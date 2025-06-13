@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  Menu
+} from 'lucide-react'; 
 import AdminDashboard from './AdminDashboard';
 import ManageAdmins from './ManageAdmins';
 import ManageStudents from './ManageStudents';
@@ -16,6 +19,7 @@ const AdminFacultySidebar = () => {
   const [showModal, setShowModal] = useState(false);
   const [activeTab, setActiveTab] = useState('admin');
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -36,7 +40,13 @@ const AdminFacultySidebar = () => {
         {/* Header */}
         <header className="bg-white text-black shadow-md">
           <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-            <h1 className="text-2xl font-bold">FMS Admin Panel</h1>
+            <div className="flex items-center gap-4">
+              {/* Menu Icon */}
+              <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-black hover:text-blue-600">
+                <Menu className="w-6 h-6" />
+              </button>
+              <h1 className="text-2xl font-bold">FMS Admin Panel</h1>
+            </div>
             <nav className="flex items-center gap-4">
               {loggedInUser && (
                 <span className="text-sm font-medium text-gray-700">
@@ -54,91 +64,38 @@ const AdminFacultySidebar = () => {
         </header>
 
         <div className="flex flex-1 overflow-hidden">
-          {/* Sidebar */}
-          <aside className="bg-gray-100 border-r-2 border-gray-300 p-4 w-64 overflow-y-auto">
-            <ul className="space-y-2">
-              <li>
-                <button 
-                  onClick={() => setActiveTab('admin')} 
-                  className={`block p-2 font-bold rounded ${activeTab === 'admin' ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-blue-500 hover:text-white'}`}
-                >
-                  Dashboard
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => setActiveTab('adminProfile')} 
-                  className={`block p-2 font-bold rounded ${activeTab === 'adminProfile' ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-blue-500 hover:text-white'}`}
-                >
-                  My Profile
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => setActiveTab('users')} 
-                  className={`block p-2 font-bold rounded ${activeTab === 'users' ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-blue-500 hover:text-white'}`}
-                >
-                  Users
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => setActiveTab('manageadmins')} 
-                  className={`block p-2 font-bold rounded ${activeTab === 'manageadmins' ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-blue-500 hover:text-white'}`}
-                >
-                  Manage Admins
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => setActiveTab('managestudents')} 
-                  className={`block p-2 font-bold rounded ${activeTab === 'managestudents' ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-blue-500 hover:text-white'}`}
-                >
-                  Manage Students
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => setActiveTab('manageprofessors')} 
-                  className={`block p-2 font-bold rounded ${activeTab === 'manageprofessors' ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-blue-500 hover:text-white'}`}
-                >
-                  Manage Professors
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => setActiveTab('reportlist')} 
-                  className={`block p-2 font-bold rounded ${activeTab === 'reportlist' ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-blue-500 hover:text-white'}`}
-                >
-                  Reports
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => setActiveTab('book')} 
-                  className={`block p-2 font-bold rounded ${activeTab === 'book' ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-blue-500 hover:text-white'}`}
-                >
-                  Books
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => setActiveTab('contactlist')} 
-                  className={`block p-2 font-bold rounded ${activeTab === 'contactlist' ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-blue-500 hover:text-white'}`}
-                >
-                  Contacts List
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => setActiveTab('department')} 
-                  className={`block p-2 font-bold rounded ${activeTab === 'department' ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-blue-500 hover:text-white'}`}
-                >
-                  Department
-                </button>
-              </li>
-            </ul>
-          </aside>
+          {/* Sidebar shown conditionally */}
+          {isSidebarOpen && (
+            <aside className="bg-gray-100 border-r-2 border-gray-300 p-4 w-64 overflow-y-auto">
+          <ul className="space-y-2">
+  {[
+    { key: 'admin', label: 'Dashboard' },
+    { key: 'adminProfile', label: 'My Profile' },
+    { key: 'users', label: 'Users' },
+    { key: 'manageadmins', label: 'Manage Admins' },
+    { key: 'managestudents', label: 'Manage Students' },
+    { key: 'manageprofessors', label: 'Manage Professors' },
+    { key: 'reportlist', label: 'Reports' },
+    { key: 'book', label: 'Books' },
+    { key: 'contactlist', label: 'Contacts List' },
+    { key: 'department', label: 'Department' },
+  ].map(item => (
+    <li key={item.key}>
+      <button 
+        onClick={() => {
+          setActiveTab(item.key);
+          setIsSidebarOpen(false);  // Kjo mbyll sidebar-in kur klikojmë
+        }} 
+        className={`block p-2 font-bold rounded ${activeTab === item.key ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-blue-500 hover:text-white'}`}
+      >
+        {item.label}
+      </button>
+    </li>
+  ))}
+</ul>
+
+            </aside>
+          )}
 
           {/* Main Content */}
           <main className="flex-1 overflow-y-auto p-6">

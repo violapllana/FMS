@@ -14,7 +14,7 @@ const ManageProfessors = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [professorToDelete, setProfessorToDelete] = useState(null);
 
-  const apiUrl = 'http://localhost:5000/api/professors'; // API për profesorët
+  const apiUrl = 'http://localhost:5000/api/professors'; 
 
   const fetchProfessors = async () => {
     try {
@@ -71,7 +71,7 @@ const ManageProfessors = () => {
       const professor = res.data;
       setUsername(professor.username);
       setEmail(professor.email);
-      setPassword(''); // nuk e marrim password-in për siguri
+      setPassword(''); 
       setCurrentProfessorId(id);
       setIsEditMode(true);
       setShowFormModal(true);

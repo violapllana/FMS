@@ -5,7 +5,7 @@ const BooksPanel = () => {
   const [books, setBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [availabilityFilter, setAvailabilityFilter] = useState('all'); // 'all' | 'available' | 'not-available'
+  const [availabilityFilter, setAvailabilityFilter] = useState('all'); 
 
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
@@ -36,18 +36,17 @@ const BooksPanel = () => {
     fetchBooks();
   }, []);
 
-  // Filter books when searchTerm or availabilityFilter changes
   useEffect(() => {
     let filtered = books;
 
-    // Filter by availability
+ 
     if (availabilityFilter === 'available') {
       filtered = filtered.filter(book => book.available);
     } else if (availabilityFilter === 'not-available') {
       filtered = filtered.filter(book => !book.available);
     }
 
-    // Filter by search term (title or author)
+    
     if (searchTerm.trim() !== '') {
       const term = searchTerm.toLowerCase();
       filtered = filtered.filter(
@@ -60,7 +59,7 @@ const BooksPanel = () => {
     setFilteredBooks(filtered);
   }, [books, searchTerm, availabilityFilter]);
 
-  // Reset form fields
+
   const resetForm = () => {
     setTitle('');
     setAuthor('');
@@ -71,7 +70,7 @@ const BooksPanel = () => {
     setCurrentBookId(null);
   };
 
-  // Create book
+
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
@@ -92,7 +91,7 @@ const BooksPanel = () => {
     }
   };
 
-  // Update book
+
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -114,7 +113,7 @@ const BooksPanel = () => {
     }
   };
 
-  // Edit book: load data in form
+
   const handleEdit = async (id) => {
     try {
       const res = await axios.get(`${apiUrl}/${id}`);
@@ -133,7 +132,7 @@ const BooksPanel = () => {
     }
   };
 
-  // Delete book
+
   const handleDelete = async () => {
     try {
       await axios.delete(`${apiUrl}/delete/${bookToDelete}`);

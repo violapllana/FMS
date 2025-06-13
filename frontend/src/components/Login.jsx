@@ -16,7 +16,7 @@ const Login = () => {
   const [isFbLoggingIn, setIsFbLoggingIn] = useState(false); // shtuar
 
   useEffect(() => {
-    // Load Facebook SDK
+
     window.fbAsyncInit = function () {
       window.FB.init({
         appId: '4017319421915522',
@@ -39,7 +39,7 @@ const Login = () => {
     })(document, 'script', 'facebook-jssdk');
   }, []);
 
-  // Kontrollon nëse Facebook login lejohet (https ose localhost)
+
   const isFacebookLoginAllowed = () => {
     return (
       window.location.protocol === 'https:' ||
@@ -131,7 +131,7 @@ const Login = () => {
     }
   };
 
-  // Pjesa e Facebook login me kontrollin HTTPS dhe parandalimin e klikimeve të shpejta
+
   const handleFacebookLogin = () => {
     setErrorMessage('');
     if (!isFacebookLoginAllowed()) {

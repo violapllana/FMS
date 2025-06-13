@@ -16,7 +16,7 @@ const DepartmentsPanel = () => {
 
   const apiUrl = 'http://localhost:5000/api/departments';
 
-  // Fetch all departments
+
   const fetchDepartments = async () => {
     try {
       const res = await axios.get(apiUrl);
@@ -39,12 +39,12 @@ const DepartmentsPanel = () => {
     setCurrentDepartmentId(null);
   };
 
-  // Validate email format simple
+ 
   const validateEmail = (email) => {
     return /\S+@\S+\.\S+/.test(email);
   };
 
-  // Create new department
+
   const handleCreate = async (e) => {
     e.preventDefault();
     if (!validateEmail(email)) {
@@ -62,7 +62,7 @@ const DepartmentsPanel = () => {
     }
   };
 
-  // Update existing department
+
   const handleUpdate = async (e) => {
     e.preventDefault();
     if (!validateEmail(email)) {
@@ -81,7 +81,7 @@ const DepartmentsPanel = () => {
     }
   };
 
-  // Load department data for editing
+
   const handleEdit = async (id) => {
     try {
       const res = await axios.get(`${apiUrl}/${id}`);
@@ -99,7 +99,7 @@ const DepartmentsPanel = () => {
     }
   };
 
-  // Delete department
+
   const handleDelete = async () => {
     try {
       await axios.delete(`${apiUrl}/delete/${departmentToDelete}`);
