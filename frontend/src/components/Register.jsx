@@ -45,15 +45,15 @@ const Register = () => {
   return (
     <>
       <Header />
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="flex w-full max-w-6xl bg-white rounded-xl shadow-lg overflow-hidden">
-          {/* Left Side Image */}
-          <div className="w-1/2 bg-gray-100 flex items-center justify-center p-8">
-            <img src={FMSLogo} alt="FMS Preview" className="w-full" />
-          </div>
+   <div className="min-h-screen flex items-center justify-center bg-white px-4">
+  <div className="flex flex-col md:flex-row w-full max-w-6xl bg-white rounded-xl shadow-lg overflow-hidden">
+    {/* Foto mbi */}
+    <div className="w-full md:w-1/2 bg-gray-100 flex items-center justify-center p-8">
+      <img src={FMSLogo} alt="FMS Preview" className="w-full" />
+    </div>
 
           {/* Right Side Form */}
-          <div className="w-1/2 p-10">
+    <div className="w-full md:w-1/2 p-10">
             <h2 className="text-3xl font-semibold mb-4 text-gray-700">
               Create <span className="italic font-medium">your</span> Account!
             </h2>

@@ -59,6 +59,7 @@ function App() {
         <Route path="/header" element={<Header />} />
         <Route path="/footer" element={<Footer />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
+        
 
         {/* ✅ Admin Routes */}
         <Route path="/admin-dashboard" element={
@@ -72,6 +73,7 @@ function App() {
             <AdminDashboard />
           </ProtectedRoute>
         } />
+        
 
         <Route path="/manageadmins" element={
           <ProtectedRoute allowedRoles={["admin"]}>

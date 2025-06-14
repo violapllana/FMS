@@ -25,9 +25,27 @@ const ManageUsers = () => {
     }
   };
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+ useEffect(() => {
+  const fetchUsers = async () => {
+    try {
+      const res = await axios.get(apiUrl);
+      console.log("API response", res.data); // për debug
+
+      // Kontroll që data është array
+      if (Array.isArray(res.data)) {
+        setUsers(res.data);
+      } else {
+        console.error("API nuk ktheu array:", res.data);
+        setUsers([]); // ruaj një array bosh që mos të bjerë app-i
+      }
+    } catch (error) {
+      console.error("Gabim në marrjen e përdoruesve", error);
+    }
+  };
+
+  fetchUsers();
+}, []);
+
 
   const resetForm = () => {
     setUserName('');

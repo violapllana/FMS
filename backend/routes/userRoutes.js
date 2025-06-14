@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController');
+const {createUser,updateUser,deleteUser,getAllUsers,getUserById} = require('../controllers/userController');
 
 /**
  * @swagger
@@ -49,7 +49,7 @@ const userController = require('../controllers/userController');
  *       400:
  *         description: Kërkesë e pavlefshme
  */
-router.post('/', userController.createUser);
+router.post('/', createUser);
 
 /**
  * @swagger
@@ -61,7 +61,7 @@ router.post('/', userController.createUser);
  *       200:
  *         description: Lista e përdoruesve
  */
-router.get('/', userController.getAllUsers);
+router.get('/', getAllUsers);
 
 /**
  * @swagger
@@ -82,7 +82,7 @@ router.get('/', userController.getAllUsers);
  *       404:
  *         description: Përdoruesi nuk u gjet
  */
-router.get('/:id', userController.getUserById);
+router.get('/:id', getUserById);
 
 /**
  * @swagger
@@ -108,7 +108,7 @@ router.get('/:id', userController.getUserById);
  *       404:
  *         description: Përdoruesi nuk ekziston
  */
-router.put('/:id', userController.updateUser);
+router.put('/:id', updateUser);
 
 /**
  * @swagger
@@ -129,6 +129,6 @@ router.put('/:id', userController.updateUser);
  *       404:
  *         description: Përdoruesi nuk ekziston
  */
-router.delete('/:id', userController.deleteUser);
+router.delete('/:id', deleteUser);
 
 module.exports = router;
