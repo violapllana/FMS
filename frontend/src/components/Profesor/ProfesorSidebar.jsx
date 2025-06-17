@@ -6,6 +6,9 @@ import ReportList from "../Report/ReportList";
 import ProfessorDashboard from "../Profesor/ProfesorDashboard";
 import StudentList from "./StudentList";
 import ProfessorProfile from "../Profesor/ProfessorProfile";
+import DepartmentList from "../Admin/DepartmentList";
+
+
 
 const ProfesorSidebar = () => {
   const navigate = useNavigate();
@@ -73,6 +76,9 @@ const ProfesorSidebar = () => {
                   { key: "appointmentlist", label: "My Appointments" },
                   { key: "reportlist", label: "Reports" },
                   { key: "studentslist", label: "Students" },
+                  { key: "departmentList", label: "DepartmentList" },
+
+                  
                 ].map((item) => (
                   <li key={item.key}>
                     <button
@@ -101,6 +107,9 @@ const ProfesorSidebar = () => {
             {activeTab === "reportlist" && <ReportList />}
             {activeTab === "studentslist" && <StudentList />}
             {activeTab === "professorProfile" && <ProfessorProfile />}
+            {activeTab === "departmentList" && <DepartmentList />}
+
+            
           </main>
         </div>
       </div>

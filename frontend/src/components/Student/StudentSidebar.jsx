@@ -8,6 +8,7 @@ import ProfesorList from "../../components/Student/ProfesorList";
 import Profile from "../../components/Student/Profile";
 import BooksList from "../Book/BooksList";
 import WishList from "../../components/Book/WishList";
+import DepartmentList from "../../components/Admin/DepartmentList";
 
 const StudentSidebar = () => {
   const navigate = useNavigate();
@@ -77,6 +78,9 @@ const StudentSidebar = () => {
                   { key: "profile", label: "My Profile" },
                   { key: "bookslist", label: "Products" },
                   { key: "wishlist", label: "Favorites" },
+                   { key: "departmentList", label: "DepartmentList" },
+
+                  
                 ].map((item) => (
                   <li key={item.key}>
                     <button
@@ -106,6 +110,9 @@ const StudentSidebar = () => {
             {activeTab === "profile" && <Profile />}
             {activeTab === "bookslist" && <BooksList />}
             {activeTab === "wishlist" && <WishList />}
+            {activeTab === "departmentList" && <DepartmentList />}
+
+            
           </main>
         </div>
       </div>
