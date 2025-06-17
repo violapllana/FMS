@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import Header from '../Header';
 import Footer from '../Footer';
 
 const BooksList = () => {
@@ -122,8 +121,6 @@ const BooksList = () => {
 
   return (
     <>
-      <Header />
-
       <div className="relative bg-gradient-to-r from-indigo-600 via-purple-700 to-indigo-600 h-[300px] flex items-center justify-center">
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
         <h1 className="relative text-white text-4xl md:text-5xl font-extrabold drop-shadow-lg text-center px-4">
