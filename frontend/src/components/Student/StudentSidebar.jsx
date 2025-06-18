@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
 import StudentDashboard from "../Student/StudentDashboard";
-import AppointmentList from "../../components/Appoinment/AppoinmentList";
-import ReportList from "../../components/Report/ReportList";
 import ProfesorList from "../../components/Student/ProfesorList";
 import Profile from "../../components/Student/Profile";
 import BooksList from "../Book/BooksList";
@@ -72,8 +70,6 @@ const StudentSidebar = () => {
               <ul className="space-y-2">
                 {[
                   { key: "student", label: "Dashboard" },
-                  { key: "appointmentlist", label: "My Appointments" },
-                  { key: "reportlist", label: "Reports" },
                   { key: "professorslist", label: "Professors" },
                   { key: "profile", label: "My Profile" },
                   { key: "bookslist", label: "Products" },
@@ -104,8 +100,6 @@ const StudentSidebar = () => {
 
           <main className="flex-1 overflow-y-auto p-6">
             {activeTab === "student" && <StudentDashboard />}
-            {activeTab === "appointmentlist" && <AppointmentList />}
-            {activeTab === "reportlist" && <ReportList />}
             {activeTab === "professorslist" && <ProfesorList />}
             {activeTab === "profile" && <Profile />}
             {activeTab === "bookslist" && <BooksList />}

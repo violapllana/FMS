@@ -14,7 +14,7 @@ const ManageUsers = () => {
   const [userToDelete, setUserToDelete] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const apiUrl = 'http://localhost:5000/api/users';
+  const apiUrl = 'http://localhost:5000/api/auth';
 
   const fetchUsers = async () => {
     try {

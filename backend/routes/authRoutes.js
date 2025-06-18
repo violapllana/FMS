@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 const User = require('../models/User');
-const { registerUser, loginUser } = require('../controllers/authController');
+const { registerUser, loginUser, createUser, updateUser, deleteUser, getAllUsers,getUserById } = require('../controllers/authController');
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 
@@ -210,5 +210,148 @@ router.post('/logout', (req, res) => {
   res.clearCookie('connect.sid');
   res.status(200).json({ message: 'Logout successful' });
 });
+
+/**
+ *  * @swagger
+ * tags:
+ *   name: Users
+ *   description: API për menaxhimin e përdoruesve
+ */
+
+/**
+ * @swagger
+ * /api/auth:
+ *   post:
+ *     summary:
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - username
+ *               - email
+ *               - password
+ *             properties:
+ *               username:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *               role:
+ *                 type: string
+ *                 description: Roli i përdoruesit (opsional, default 'student')
+ *     responses:
+ *       201:
+ *         description: Përdoruesi u krijua me sukses
+ *       400:
+ *         description: Kërkesë e pavlefshme
+ *       500:
+ *         description: Gabim i serverit
+ */
+router.post('/', createUser);
+
+/**
+ * @swagger
+ * /api/auth:
+ *   get:
+ *     summary:
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Lista e përdoruesve
+ *       500:
+ *         description: Gabim i serverit
+ */
+router.get('/', getAllUsers);
+
+/**
+ * @swagger
+ * /api/auth/{id}:
+ *   get:
+ *     summary:
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID e përdoruesit
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Detajet e përdoruesit
+ *       404:
+ *         description: Përdoruesi nuk u gjet
+ *       500:
+ *         description: Gabim i serverit
+ */
+router.get('/:id', getUserById);
+
+/**
+ * @swagger
+ * /api/auth/{id}:
+ *   put:
+ *     summary: 
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID e përdoruesit për përditësim
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *               role:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Përdoruesi u përditësua me sukses
+ *       404:
+ *         description: Përdoruesi nuk u gjet
+ *       500:
+ *         description: Gabim i serverit
+ */
+router.put('/:id', updateUser);
+
+/**
+ * @swagger
+ * /api/auth/{id}:
+ *   delete:
+ *     summary: 
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID e përdoruesit për fshirje
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Përdoruesi u fshi me sukses
+ *       404:
+ *         description: Përdoruesi nuk u gjet
+ *       500:
+ *         description: Gabim i serverit
+ */
+router.delete('/:id', deleteUser);
 
 module.exports = router;

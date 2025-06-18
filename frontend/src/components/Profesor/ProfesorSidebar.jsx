@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
-import AppointmentList from "../Appoinment/AppoinmentList";
-import ReportList from "../Report/ReportList";
 import ProfessorDashboard from "../Profesor/ProfesorDashboard";
 import StudentList from "./StudentList";
 import ProfessorProfile from "../Profesor/ProfessorProfile";
@@ -73,8 +71,6 @@ const ProfesorSidebar = () => {
                 {[
                   { key: "professor", label: "Dashboard" },
                   { key: "professorProfile", label: "My Profile" },
-                  { key: "appointmentlist", label: "My Appointments" },
-                  { key: "reportlist", label: "Reports" },
                   { key: "studentslist", label: "Students" },
                   { key: "departmentList", label: "DepartmentList" },
 
@@ -103,8 +99,6 @@ const ProfesorSidebar = () => {
           {/* Përmbajtja Kryesore */}
           <main className="flex-1 overflow-y-auto p-6">
             {activeTab === "professor" && <ProfessorDashboard />}
-            {activeTab === "appointmentlist" && <AppointmentList />}
-            {activeTab === "reportlist" && <ReportList />}
             {activeTab === "studentslist" && <StudentList />}
             {activeTab === "professorProfile" && <ProfessorProfile />}
             {activeTab === "departmentList" && <DepartmentList />}

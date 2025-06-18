@@ -7,7 +7,6 @@ import AdminDashboard from './AdminDashboard';
 import ManageAdmins from './ManageAdmins';
 import ManageStudents from './ManageStudents';
 import ManageProfessors from '../../components/Admin/ManageProfesors';
-import ReportList from '../../components/Report/ReportList';
 import BooksPanel from '../../components/Book/Books';
 import ContactList from '../../components/ContactUs/ContactList';
 import ManageDepartment from './ManageDepartment';
@@ -75,7 +74,6 @@ const AdminFacultySidebar = () => {
     { key: 'manageadmins', label: 'Manage Admins' },
     { key: 'managestudents', label: 'Manage Students' },
     { key: 'manageprofessors', label: 'Manage Professors' },
-    { key: 'reportlist', label: 'Reports' },
     { key: 'book', label: 'Books' },
     { key: 'contactlist', label: 'Contacts List' },
     { key: 'department', label: 'Department' },
@@ -104,7 +102,6 @@ const AdminFacultySidebar = () => {
             {activeTab === 'manageadmins' && <ManageAdmins />}
             {activeTab === 'managestudents' && <ManageStudents />}
             {activeTab === 'manageprofessors' && <ManageProfessors />}
-            {activeTab === 'reportlist' && <ReportList />}
             {activeTab === 'book' && <BooksPanel />}
             {activeTab === 'contactlist' && <ContactList />}
             {activeTab === 'department' && <ManageDepartment />}

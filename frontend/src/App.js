@@ -15,8 +15,6 @@ import ProfessorDashboard from "./components/Profesor/ProfesorDashboard";
 import ManageAdmins from "./components/Admin/ManageAdmins";
 import ManageStudents from "./components/Admin/ManageStudents";
 import ManageProfesors from "./components/Admin/ManageProfesors";
-import ReportList from "./components/Report/ReportList";
-import AppointmentList from "./components/Appoinment/AppoinmentList";
 import GoogleCallback from "./components/GoogleCallback";
 import ContactForm from "./components/ContactUs/ContactForm";
 import ContactList from "./components/ContactUs/ContactList";
@@ -180,18 +178,6 @@ function App() {
           </ProtectedRoute>
         } />
 
-        {/* ✅ Shared Private Routes (admin, student, professor) */}
-        <Route path="/reportlist" element={
-          <ProtectedRoute allowedRoles={["admin", "student", "profesor"]}>
-            <ReportList />
-          </ProtectedRoute>
-        } />
-
-        <Route path="/appointmentlist" element={
-          <ProtectedRoute allowedRoles={["admin", "student", "profesor"]}>
-            <AppointmentList />
-          </ProtectedRoute>
-        } />
 
         <Route path="/contactlist" element={
           <ProtectedRoute allowedRoles={["admin"]}>
