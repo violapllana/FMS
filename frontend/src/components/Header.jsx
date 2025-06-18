@@ -1,7 +1,6 @@
-
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 
 function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -17,18 +16,30 @@ function Header() {
 
         {/* Desktop menu */}
         <nav className="hidden md:flex space-x-6 text-sm md:text-base">
-          <Link to="/" className="hover:text-blue-500">Home</Link>
-          <Link to="/contactform" className="hover:text-blue-500">Contact Us</Link>
-          <Link to="/aboutus" className="hover:text-blue-500">About Us</Link>
-          <Link to="/Library" className="hover:text-blue-500">Library</Link>
-          <Link to="/login" className="hover:text-blue-500">Login</Link>
-          <Link to="/register" className="hover:text-blue-500">Register</Link>
+          <Link to="/" className="hover:text-blue-500">
+            Home
+          </Link>
+          <Link to="/contactform" className="hover:text-blue-500">
+            Contact Us
+          </Link>
+          <Link to="/aboutus" className="hover:text-blue-500">
+            About Us
+          </Link>
+          <Link to="/Library" className="hover:text-blue-500">
+            Library
+          </Link>
+          <Link to="/login" className="hover:text-blue-500">
+            Login
+          </Link>
+          <Link to="/register" className="hover:text-blue-500">
+            Register
+          </Link>
         </nav>
 
         {/* Mobile menu icon */}
-        <button 
-          className="md:hidden focus:outline-none" 
-          onClick={toggleMobileMenu} 
+        <button
+          className="md:hidden focus:outline-none"
+          onClick={toggleMobileMenu}
           aria-label="Toggle menu"
         >
           {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -38,7 +49,7 @@ function Header() {
       {/* Mobile sidebar menu */}
       <div
         className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50
-          ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+          ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         {/* Header në menunë anash */}
         <div className="px-6 py-4 border-b flex items-center justify-between">
@@ -54,16 +65,56 @@ function Header() {
 
         {/* Lista e linkeve */}
         <nav className="flex flex-col px-6 py-4 space-y-4 text-black text-base">
-          <Link to="/" onClick={toggleMobileMenu} className="flex items-center space-x-3 hover:text-blue-600 cursor-pointer">
+          <Link
+            to="/"
+            onClick={toggleMobileMenu}
+            className="flex items-center space-x-3 hover:text-blue-600 cursor-pointer"
+          >
             {/* Ikona mund ta shtosh këtu */}
             <span>Home</span>
           </Link>
-          <Link to="/contactform" onClick={toggleMobileMenu} className="hover:text-blue-600 cursor-pointer">Contact Us</Link>
-          <Link to="/aboutus" onClick={toggleMobileMenu} className="hover:text-blue-600 cursor-pointer">About Us</Link>
-          <Link to="/Library" onClick={toggleMobileMenu} className="hover:text-blue-600 cursor-pointer">Library</Link>
-          <Link to="/bookslist" onClick={toggleMobileMenu} className="hover:text-blue-600 cursor-pointer">Products</Link>
-          <Link to="/login" onClick={toggleMobileMenu} className="hover:text-blue-600 cursor-pointer">Login</Link>
-          <Link to="/register" onClick={toggleMobileMenu} className="hover:text-blue-600 cursor-pointer">Register</Link>
+          <Link
+            to="/contactform"
+            onClick={toggleMobileMenu}
+            className="hover:text-blue-600 cursor-pointer"
+          >
+            Contact Us
+          </Link>
+          <Link
+            to="/aboutus"
+            onClick={toggleMobileMenu}
+            className="hover:text-blue-600 cursor-pointer"
+          >
+            About Us
+          </Link>
+          <Link
+            to="/Library"
+            onClick={toggleMobileMenu}
+            className="hover:text-blue-600 cursor-pointer"
+          >
+            Library
+          </Link>
+          <Link
+            to="/bookslist"
+            onClick={toggleMobileMenu}
+            className="hover:text-blue-600 cursor-pointer"
+          >
+            Products
+          </Link>
+          <Link
+            to="/login"
+            onClick={toggleMobileMenu}
+            className="hover:text-blue-600 cursor-pointer"
+          >
+            Login
+          </Link>
+          <Link
+            to="/register"
+            onClick={toggleMobileMenu}
+            className="hover:text-blue-600 cursor-pointer"
+          >
+            Register
+          </Link>
         </nav>
       </div>
 
@@ -79,4 +130,3 @@ function Header() {
 }
 
 export default Header;
-

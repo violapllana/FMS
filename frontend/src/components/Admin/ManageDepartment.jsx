@@ -1,28 +1,27 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const DepartmentsPanel = () => {
   const [departments, setDepartments] = useState([]);
-  const [name, setName] = useState('');
-  const [director, setDirector] = useState('');
-  const [location, setLocation] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [name, setName] = useState("");
+  const [director, setDirector] = useState("");
+  const [location, setLocation] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentDepartmentId, setCurrentDepartmentId] = useState(null);
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [departmentToDelete, setDepartmentToDelete] = useState(null);
 
-  const apiUrl = 'http://localhost:5000/api/departments';
-
+  const apiUrl = "http://localhost:5000/api/departments";
 
   const fetchDepartments = async () => {
     try {
       const res = await axios.get(apiUrl);
       setDepartments(res.data);
     } catch (error) {
-      console.error('Error fetching departments:', error);
+      console.error("Error fetching departments:", error);
     }
   };
 
@@ -31,24 +30,22 @@ const DepartmentsPanel = () => {
   }, []);
 
   const resetForm = () => {
-    setName('');
-    setDirector('');
-    setLocation('');
-    setEmail('');
-    setPhoneNumber('');
+    setName("");
+    setDirector("");
+    setLocation("");
+    setEmail("");
+    setPhoneNumber("");
     setCurrentDepartmentId(null);
   };
 
- 
   const validateEmail = (email) => {
     return /\S+@\S+\.\S+/.test(email);
   };
 
-
   const handleCreate = async (e) => {
     e.preventDefault();
     if (!validateEmail(email)) {
-      alert('Please enter a valid email address.');
+      alert("Please enter a valid email address.");
       return;
     }
     try {
@@ -58,29 +55,36 @@ const DepartmentsPanel = () => {
       setShowFormModal(false);
       resetForm();
     } catch (error) {
-      console.error('Error creating department:', error);
+      console.error("Error creating department:", error);
     }
   };
-
 
   const handleUpdate = async (e) => {
     e.preventDefault();
     if (!validateEmail(email)) {
-      alert('Please enter a valid email address.');
+      alert("Please enter a valid email address.");
       return;
     }
     try {
-      const updatedDepartment = { name, director, location, email, phoneNumber };
-      await axios.put(`${apiUrl}/update/${currentDepartmentId}`, updatedDepartment);
+      const updatedDepartment = {
+        name,
+        director,
+        location,
+        email,
+        phoneNumber,
+      };
+      await axios.put(
+        `${apiUrl}/update/${currentDepartmentId}`,
+        updatedDepartment
+      );
       fetchDepartments();
       setIsEditMode(false);
       setShowFormModal(false);
       resetForm();
     } catch (error) {
-      console.error('Error updating department:', error);
+      console.error("Error updating department:", error);
     }
   };
-
 
   const handleEdit = async (id) => {
     try {
@@ -95,10 +99,9 @@ const DepartmentsPanel = () => {
       setIsEditMode(true);
       setShowFormModal(true);
     } catch (error) {
-      console.error('Error fetching department:', error);
+      console.error("Error fetching department:", error);
     }
   };
-
 
   const handleDelete = async () => {
     try {
@@ -106,7 +109,7 @@ const DepartmentsPanel = () => {
       fetchDepartments();
       setShowDeleteModal(false);
     } catch (error) {
-      console.error('Error deleting department:', error);
+      console.error("Error deleting department:", error);
     }
   };
 
@@ -208,11 +211,13 @@ const DepartmentsPanel = () => {
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 max-h-[90vh] overflow-auto">
             <h2 className="text-xl font-semibold mb-4">
-              {isEditMode ? 'Update Department' : 'Add New Department'}
+              {isEditMode ? "Update Department" : "Add New Department"}
             </h2>
             <form onSubmit={isEditMode ? handleUpdate : handleCreate}>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Name</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Name
+                </label>
                 <input
                   type="text"
                   value={name}
@@ -222,7 +227,9 @@ const DepartmentsPanel = () => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Director</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Director
+                </label>
                 <input
                   type="text"
                   value={director}
@@ -232,7 +239,9 @@ const DepartmentsPanel = () => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Location</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Location
+                </label>
                 <input
                   type="text"
                   value={location}
@@ -242,7 +251,9 @@ const DepartmentsPanel = () => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Email</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Email
+                </label>
                 <input
                   type="email"
                   value={email}
@@ -252,7 +263,9 @@ const DepartmentsPanel = () => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Phone Number
+                </label>
                 <input
                   type="text"
                   value={phoneNumber}
@@ -278,7 +291,7 @@ const DepartmentsPanel = () => {
                   type="submit"
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
-                  {isEditMode ? 'Update' : 'Create'}
+                  {isEditMode ? "Update" : "Create"}
                 </button>
               </div>
             </form>

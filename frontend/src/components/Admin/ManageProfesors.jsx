@@ -1,27 +1,27 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const ManageProfessors = () => {
   const [professors, setProfessors] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentProfessorId, setCurrentProfessorId] = useState(null);
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [professorToDelete, setProfessorToDelete] = useState(null);
 
-  const apiUrl = 'http://localhost:5000/api/professors'; 
+  const apiUrl = "http://localhost:5000/api/professors";
 
   const fetchProfessors = async () => {
     try {
       const res = await axios.get(apiUrl);
       setProfessors(res.data);
     } catch (error) {
-      console.error('Error fetching professors:', error);
+      console.error("Error fetching professors:", error);
     }
   };
 
@@ -30,9 +30,9 @@ const ManageProfessors = () => {
   }, []);
 
   const resetForm = () => {
-    setUsername('');
-    setEmail('');
-    setPassword('');
+    setUsername("");
+    setEmail("");
+    setPassword("");
     setCurrentProfessorId(null);
   };
 
@@ -44,7 +44,7 @@ const ManageProfessors = () => {
       setShowFormModal(false);
       resetForm();
     } catch (error) {
-      console.error('Error creating professor:', error);
+      console.error("Error creating professor:", error);
     }
   };
 
@@ -52,7 +52,7 @@ const ManageProfessors = () => {
     e.preventDefault();
     try {
       const updateData = { username, email };
-      if (password.trim() !== '') {
+      if (password.trim() !== "") {
         updateData.password = password;
       }
       await axios.put(`${apiUrl}/${currentProfessorId}`, updateData);
@@ -61,7 +61,7 @@ const ManageProfessors = () => {
       setIsEditMode(false);
       resetForm();
     } catch (error) {
-      console.error('Error updating professor:', error);
+      console.error("Error updating professor:", error);
     }
   };
 
@@ -71,12 +71,12 @@ const ManageProfessors = () => {
       const professor = res.data;
       setUsername(professor.username);
       setEmail(professor.email);
-      setPassword(''); 
+      setPassword("");
       setCurrentProfessorId(id);
       setIsEditMode(true);
       setShowFormModal(true);
     } catch (error) {
-      console.error('Error fetching professor:', error);
+      console.error("Error fetching professor:", error);
     }
   };
 
@@ -86,12 +86,12 @@ const ManageProfessors = () => {
       fetchProfessors();
       setShowDeleteModal(false);
     } catch (error) {
-      console.error('Error deleting professor:', error);
+      console.error("Error deleting professor:", error);
     }
   };
 
-  const filteredProfessors = professors.filter(professor =>
-    (professor.username || '').toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProfessors = professors.filter((professor) =>
+    (professor.username || "").toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -169,7 +169,9 @@ const ManageProfessors = () => {
       {showDeleteModal && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
-            <h3 className="text-lg font-semibold">Are you sure you want to delete this professor?</h3>
+            <h3 className="text-lg font-semibold">
+              Are you sure you want to delete this professor?
+            </h3>
             <div className="mt-4 flex justify-end">
               <button
                 onClick={() => setShowDeleteModal(false)}
@@ -192,10 +194,14 @@ const ManageProfessors = () => {
       {showFormModal && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 max-h-[90vh] overflow-auto">
-            <h2 className="text-xl font-semibold mb-4">{isEditMode ? 'Update Professor' : 'Add New Professor'}</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              {isEditMode ? "Update Professor" : "Add New Professor"}
+            </h2>
             <form onSubmit={isEditMode ? handleUpdate : handleCreate}>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Username</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Username
+                </label>
                 <input
                   type="text"
                   value={username}
@@ -205,7 +211,9 @@ const ManageProfessors = () => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Email</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Email
+                </label>
                 <input
                   type="email"
                   value={email}
@@ -216,7 +224,9 @@ const ManageProfessors = () => {
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">
-                  {isEditMode ? 'New Password (leave empty to keep current)' : 'Password'}
+                  {isEditMode
+                    ? "New Password (leave empty to keep current)"
+                    : "Password"}
                 </label>
                 <input
                   type="password"
@@ -242,7 +252,7 @@ const ManageProfessors = () => {
                   type="submit"
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
-                  {isEditMode ? 'Update' : 'Create'}
+                  {isEditMode ? "Update" : "Create"}
                 </button>
               </div>
             </form>

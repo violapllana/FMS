@@ -29,14 +29,14 @@ const ManageUsers = () => {
   const fetchUsers = async () => {
     try {
       const res = await axios.get(apiUrl);
-      console.log("API response", res.data); // për debug
+      console.log("API response", res.data); 
 
-      // Kontroll që data është array
+
       if (Array.isArray(res.data)) {
         setUsers(res.data);
       } else {
         console.error("API nuk ktheu array:", res.data);
-        setUsers([]); // ruaj një array bosh që mos të bjerë app-i
+        setUsers([]); 
       }
     } catch (error) {
       console.error("Gabim në marrjen e përdoruesve", error);
@@ -110,7 +110,7 @@ const ManageUsers = () => {
     }
   };
 
-  // Search filter për username dhe role
+
   const filteredUsers = users.filter(user =>
     user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.role.toLowerCase().includes(searchTerm.toLowerCase())

@@ -6,8 +6,6 @@ import StudentList from "./StudentList";
 import ProfessorProfile from "../Profesor/ProfessorProfile";
 import DepartmentList from "../Admin/DepartmentList";
 
-
-
 const ProfesorSidebar = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -73,8 +71,6 @@ const ProfesorSidebar = () => {
                   { key: "professorProfile", label: "My Profile" },
                   { key: "studentslist", label: "Students" },
                   { key: "departmentList", label: "DepartmentList" },
-
-                  
                 ].map((item) => (
                   <li key={item.key}>
                     <button
@@ -102,8 +98,6 @@ const ProfesorSidebar = () => {
             {activeTab === "studentslist" && <StudentList />}
             {activeTab === "professorProfile" && <ProfessorProfile />}
             {activeTab === "departmentList" && <DepartmentList />}
-
-            
           </main>
         </div>
       </div>

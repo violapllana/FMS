@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const DepartmentList = () => {
   const [departments, setDepartments] = useState([]);
-  const [selectedDepartment, setSelectedDepartment] = useState(null); // për modal detajesh
+  const [selectedDepartment, setSelectedDepartment] = useState(null); 
   const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   const apiUrl = 'http://localhost:5000/api/departments';

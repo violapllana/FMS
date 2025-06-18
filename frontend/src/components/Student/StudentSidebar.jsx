@@ -74,9 +74,7 @@ const StudentSidebar = () => {
                   { key: "profile", label: "My Profile" },
                   { key: "bookslist", label: "Products" },
                   { key: "wishlist", label: "Favorites" },
-                   { key: "departmentList", label: "DepartmentList" },
-
-                  
+                  { key: "departmentList", label: "DepartmentList" },
                 ].map((item) => (
                   <li key={item.key}>
                     <button
@@ -105,8 +103,6 @@ const StudentSidebar = () => {
             {activeTab === "bookslist" && <BooksList />}
             {activeTab === "wishlist" && <WishList />}
             {activeTab === "departmentList" && <DepartmentList />}
-
-            
           </main>
         </div>
       </div>

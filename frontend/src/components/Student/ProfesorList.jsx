@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const ProfesorList = () => {
   const [profesors, setProfesors] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const apiUrl = 'http://localhost:5000/api/professors'; 
+  const apiUrl = "http://localhost:5000/api/professors";
 
   const fetchProfesors = async () => {
     try {
       const res = await axios.get(apiUrl);
       setProfesors(res.data);
     } catch (error) {
-      console.error('Error fetching profesors:', error);
+      console.error("Error fetching profesors:", error);
     }
   };
 
@@ -20,9 +20,8 @@ const ProfesorList = () => {
     fetchProfesors();
   }, []);
 
-
-  const filteredProfesors = profesors.filter(profesor =>
-    (profesor.username || '').toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProfesors = profesors.filter((profesor) =>
+    (profesor.username || "").toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (

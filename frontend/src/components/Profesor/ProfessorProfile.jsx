@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-const API_BASE_URL = 'http://localhost:5000/api/professors'; 
+const API_BASE_URL = "http://localhost:5000/api/professors";
 
 const ProfessorProfile = () => {
-  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const storedUser = JSON.parse(localStorage.getItem("user"));
 
   const [user, setUser] = useState(storedUser || {});
   const [isEditing, setIsEditing] = useState(false);
@@ -16,12 +16,12 @@ const ProfessorProfile = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser(prev => ({ ...prev, [name]: value }));
+    setUser((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSave = async () => {
     if (!user._id && !user.id) {
-      setError('User ID is missing.');
+      setError("User ID is missing.");
       return;
     }
 
@@ -29,21 +29,21 @@ const ProfessorProfile = () => {
     setError(null);
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
 
       const bodyData = {
         username: user.username,
         email: user.email,
       };
 
-      if (user.password && user.password.trim() !== '') {
+      if (user.password && user.password.trim() !== "") {
         bodyData.password = user.password;
       }
 
       const response = await fetch(`${API_BASE_URL}/${user._id || user.id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           ...(token && { Authorization: `Bearer ${token}` }),
         },
         body: JSON.stringify(bodyData),
@@ -51,18 +51,18 @@ const ProfessorProfile = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Error saving data');
+        throw new Error(errorData.message || "Error saving data");
       }
 
       const updatedUser = await response.json();
 
-      localStorage.setItem('user', JSON.stringify(updatedUser));
+      localStorage.setItem("user", JSON.stringify(updatedUser));
       setUser(updatedUser);
       setIsEditing(false);
-      alert('Data saved successfully on the server!');
+      alert("Data saved successfully on the server!");
     } catch (err) {
       console.error(err);
-      setError(err.message || 'Something went wrong');
+      setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -80,7 +80,7 @@ const ProfessorProfile = () => {
           <input
             type="text"
             name="username"
-            value={user.username || ''}
+            value={user.username || ""}
             onChange={handleChange}
             className="w-full border rounded px-2 py-1"
           />
@@ -95,7 +95,7 @@ const ProfessorProfile = () => {
           <input
             type="email"
             name="email"
-            value={user.email || ''}
+            value={user.email || ""}
             onChange={handleChange}
             className="w-full border rounded px-2 py-1"
           />
@@ -110,7 +110,7 @@ const ProfessorProfile = () => {
           <input
             type="password"
             name="password"
-            value={user.password || ''}
+            value={user.password || ""}
             onChange={handleChange}
             placeholder="Enter new password (or leave empty)"
             className="w-full border rounded px-2 py-1"
@@ -120,7 +120,7 @@ const ProfessorProfile = () => {
 
       <div className="mb-4">
         <label className="block font-medium">ID:</label>
-        <p>{user._id || user.id || '-'}</p>
+        <p>{user._id || user.id || "-"}</p>
       </div>
 
       {isEditing ? (
@@ -129,7 +129,7 @@ const ProfessorProfile = () => {
           disabled={loading}
           className="bg-blue-600 text-white px-4 py-2 rounded"
         >
-          {loading ? 'Saving...' : 'Save Changes'}
+          {loading ? "Saving..." : "Save Changes"}
         </button>
       ) : (
         <button
