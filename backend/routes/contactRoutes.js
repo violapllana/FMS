@@ -12,14 +12,14 @@ const {
  * @swagger
  * tags:
  *   name: Contact
- *   description: API për menaxhimin e mesazheve kontaktuese
+ *   description:
  */
 
 /**
  * @swagger
  * /contact:
  *   post:
- *     summary: Krijon një mesazh të ri kontaktues
+ *     summary: 
  *     tags: [Contact]
  *     requestBody:
  *       required: true
@@ -61,7 +61,7 @@ router.post('/', createContact);
  * @swagger
  * /contact:
  *   get:
- *     summary: Merr listën e mesazheve me pagination
+ *     summary: 
  *     tags: [Contact]
  *     parameters:
  *       - in: query
@@ -86,7 +86,7 @@ router.get('/', getContacts);
  * @swagger
  * /contact/all:
  *   get:
- *     summary: Merr të gjitha mesazhet pa pagination
+ *     summary:
  *     tags: [Contact]
  *     responses:
  *       200:
@@ -100,7 +100,7 @@ router.get('/all', getAllContacts);
  * @swagger
  * /contact/{id}:
  *   get:
- *     summary: Merr mesazhin me ID
+ *     summary: 
  *     tags: [Contact]
  *     parameters:
  *       - in: path
@@ -123,7 +123,7 @@ router.get('/:id', getContactById);
  * @swagger
  * /contact/{id}:
  *   delete:
- *     summary: Fshin mesazhin me ID
+ *     summary: 
  *     tags: [Contact]
  *     parameters:
  *       - in: path

@@ -43,17 +43,16 @@ const getContacts = async (req, res) => {
   }
 };
 
-
 const deleteContact = async (req, res) => {
   try {
     const { id } = req.params;
-    const contact = await ContactForm.findById(id);
+
+    const contact = await ContactForm.findByIdAndDelete(id);
 
     if (!contact) {
       return res.status(404).json({ message: 'Mesazhi nuk u gjet' });
     }
 
-    await contact.remove();
     res.status(200).json({ message: 'Mesazhi u fshi me sukses', contact });
   } catch (err) {
     res.status(400).json({ message: 'Gabim në fshirjen e mesazhit', error: err.message });

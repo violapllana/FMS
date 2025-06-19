@@ -10,6 +10,7 @@ export default function ContactPanel() {
   const [selectedContact, setSelectedContact] = useState(null);
 
 const apiUrl = 'http://localhost:5000/contact/all';
+const apiUrlDelete = 'http://localhost:5000/contact';
 
 
   const fetchContacts = async () => {
@@ -30,7 +31,7 @@ const apiUrl = 'http://localhost:5000/contact/all';
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${apiUrl}/${contactToDelete}`);
+      await axios.delete(`${apiUrlDelete}/${contactToDelete}`);
       fetchContacts();
       setShowDeleteModal(false);
     } catch (error) {
@@ -78,7 +79,7 @@ const apiUrl = 'http://localhost:5000/contact/all';
                   </button>
                   <button
                     onClick={() => {
-                      setContactToDelete(contact.id);
+                 setContactToDelete(contact._id); 
                       setShowDeleteModal(true);
                     }}
                     className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
