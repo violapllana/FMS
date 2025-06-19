@@ -75,5 +75,13 @@ const getContactById = async (req, res) => {
     res.status(400).json({ message: 'Gabim në marrjen e mesazhit', error: err.message });
   }
 };
+const getAllContacts = async (req, res) => {
+  try {
+    const contacts = await ContactForm.find().sort({ createdAt: -1 });
+    res.status(200).json(contacts);
+  } catch (err) {
+    res.status(500).json({ message: 'Gabim në marrjen e mesazheve', error: err.message });
+  }
+};
 
-module.exports = { createContact, getContacts, deleteContact, getContactById };
+module.exports = { createContact, getContacts, deleteContact, getContactById , getAllContacts};

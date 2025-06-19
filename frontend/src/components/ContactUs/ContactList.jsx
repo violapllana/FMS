@@ -9,7 +9,8 @@ export default function ContactPanel() {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedContact, setSelectedContact] = useState(null);
 
-  const apiUrl = 'http://localhost:5000/contact';
+const apiUrl = 'http://localhost:5000/contact/all';
+
 
   const fetchContacts = async () => {
     try {

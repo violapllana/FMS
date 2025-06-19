@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   createContact,
   getContacts,
+  getAllContacts,
   deleteContact,
   getContactById,
 } = require('../controllers/contactController');
@@ -11,14 +12,14 @@ const {
  * @swagger
  * tags:
  *   name: Contact
- *   description: 
+ *   description: API për menaxhimin e mesazheve kontaktuese
  */
 
 /**
  * @swagger
  * /contact:
  *   post:
- *     summary: 
+ *     summary: Krijon një mesazh të ri kontaktues
  *     tags: [Contact]
  *     requestBody:
  *       required: true
@@ -60,14 +61,14 @@ router.post('/', createContact);
  * @swagger
  * /contact:
  *   get:
- *     summary: 
+ *     summary: Merr listën e mesazheve me pagination
  *     tags: [Contact]
  *     parameters:
  *       - in: query
  *         name: page
  *         schema:
  *           type: integer
- *         description: Faqja aktuale për pagination
+ *         description: Faqja aktuale
  *       - in: query
  *         name: limit
  *         schema:
@@ -83,16 +84,30 @@ router.get('/', getContacts);
 
 /**
  * @swagger
+ * /contact/all:
+ *   get:
+ *     summary: Merr të gjitha mesazhet pa pagination
+ *     tags: [Contact]
+ *     responses:
+ *       200:
+ *         description: Lista e plotë e mesazheve
+ *       500:
+ *         description: Gabim në server
+ */
+router.get('/all', getAllContacts);
+
+/**
+ * @swagger
  * /contact/{id}:
  *   get:
- *     summary: 
+ *     summary: Merr mesazhin me ID
  *     tags: [Contact]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID e mesazhit
  *     responses:
  *       200:
@@ -108,14 +123,14 @@ router.get('/:id', getContactById);
  * @swagger
  * /contact/{id}:
  *   delete:
- *     summary: 
+ *     summary: Fshin mesazhin me ID
  *     tags: [Contact]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID e mesazhit
  *     responses:
  *       200:
